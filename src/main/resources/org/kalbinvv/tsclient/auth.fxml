@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+         <children>
+            <VBox layoutX="197.0" layoutY="64.0" prefHeight="98.0" prefWidth="240.0" spacing="15.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Адрес сервера / Порт " textAlignment="CENTER" wrappingWidth="246.01708984375">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font></Text>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
+                     <children>
+                        <TextField prefHeight="24.0" prefWidth="209.0" promptText="localhost" style="-fx-border-color: black;" />
+                        <TextField promptText="2080" style="-fx-border-color: black;" />
+                     </children>
+                  </HBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Логин:" textAlignment="CENTER" wrappingWidth="243.88720703125">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Text>
+                  <TextField fx:id="loginField" style="-fx-border-color: black;" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:" textAlignment="CENTER" wrappingWidth="244.2978515625">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Text>
+                  <PasswordField fx:id="passField" style="-fx-border-color: black;" />
+                  <Button mnemonicParsing="false" onAction="#loginUser" prefHeight="24.0" prefWidth="280.0" style="-fx-background-color: black;" text="Войти" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onAction="#anonymLogin" prefHeight="24.0" prefWidth="270.0" style="-fx-background-color: black;" text="Анонимная авторизация" textFill="WHITE" />
+               </children>
+            </VBox>
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>
