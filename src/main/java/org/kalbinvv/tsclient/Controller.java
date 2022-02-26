@@ -12,7 +12,9 @@ import org.kalbinvv.tscore.net.Connection;
 import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.net.Response;
+import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.user.AnonymousUser;
+import org.kalbinvv.tscore.user.AuthorisedUser;
 import org.kalbinvv.tscore.user.User;
 
 import javafx.event.ActionEvent;
@@ -36,8 +38,7 @@ public class Controller implements Initializable{
 	}
 	
 	public void loginUser(ActionEvent event) {
-		User user = new AnonymousUser();
-		user.setName(loginField.getText());
+		User user = new AuthorisedUser(loginField.getText(), passField.getText());
 		try {
 			user.setAddress(InetAddress.getLocalHost());
 		} catch (UnknownHostException e) {
@@ -53,12 +54,37 @@ public class Controller implements Initializable{
 		Response response = connection.sendRequestAndGetResponse(
 				new Request(RequestType.UserConnect, user));
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setContentText((String)response.getObject());
+		if(response.getResponseType() == ResponseType.SuccessfulConnect) {
+			alert.setContentText("Успешный вход!");
+		}else {
+			alert.setContentText((String)response.getObject());
+		}
 		alert.showAndWait();
 	}
 	
 	public void anonymLogin(ActionEvent event) {
-		
+		User user = new AnonymousUser(loginField.getText());
+		try {
+			user.setAddress(InetAddress.getLocalHost());
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		Socket socket = null;
+		try {
+			socket = new Socket("localhost", 2090);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Connection connection = new Connection(socket);
+		Response response = connection.sendRequestAndGetResponse(
+				new Request(RequestType.UserConnect, user));
+		Alert alert = new Alert(AlertType.INFORMATION);
+		if(response.getResponseType() == ResponseType.SuccessfulConnect) {
+			alert.setContentText("Успешный вход!");
+		}else {
+			alert.setContentText((String)response.getObject());
+		}
+		alert.showAndWait();
 	}
 	
 	
