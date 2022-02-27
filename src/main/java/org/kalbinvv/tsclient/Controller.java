@@ -28,65 +28,62 @@ public class Controller implements Initializable{
 
 	@FXML
 	private TextField loginField;
-	
+
 	@FXML
 	private TextField passField;
-	
+
+	@FXML
+	private TextField addressField;
+
+	@FXML
+	private TextField portField;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		//
 	}
-	
+
 	public void loginUser(ActionEvent event) {
 		User user = new AuthorisedUser(loginField.getText(), passField.getText());
-		try {
-			user.setAddress(InetAddress.getLocalHost());
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		Socket socket = null;
-		try {
-			socket = new Socket("localhost", 2090);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Connection connection = new Connection(socket);
-		Response response = connection.sendRequestAndGetResponse(
-				new Request(RequestType.UserConnect, user));
-		Alert alert = new Alert(AlertType.INFORMATION);
-		if(response.getResponseType() == ResponseType.SuccessfulConnect) {
-			alert.setContentText("Успешный вход!");
-		}else {
-			alert.setContentText((String)response.getObject());
-		}
-		alert.showAndWait();
+		authUser(user);
 	}
-	
+
 	public void anonymLogin(ActionEvent event) {
 		User user = new AnonymousUser(loginField.getText());
-		try {
-			user.setAddress(InetAddress.getLocalHost());
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
-		Socket socket = null;
-		try {
-			socket = new Socket("localhost", 2090);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Connection connection = new Connection(socket);
-		Response response = connection.sendRequestAndGetResponse(
-				new Request(RequestType.UserConnect, user));
-		Alert alert = new Alert(AlertType.INFORMATION);
-		if(response.getResponseType() == ResponseType.SuccessfulConnect) {
-			alert.setContentText("Успешный вход!");
-		}else {
-			alert.setContentText((String)response.getObject());
-		}
-		alert.showAndWait();
+		authUser(user);
 	}
-	
-	
+
+	private void authUser(User user) {
+		try {
+			String addressStr = addressField.getText().isEmpty() ? "localhost" 
+					: addressField.getText();
+			String portStr = portField.getText().isEmpty() ? "2090" : portField.getText();
+			ServerAddress serverAddress = new ServerAddress(addressStr, 
+					Integer.parseInt(portStr));
+			user.setAddress(InetAddress.getLocalHost());
+			Socket socket = new Socket(serverAddress.getServerAddress(), 
+					serverAddress.getServerPort());
+			Connection connection = new Connection(socket);
+			Response response = connection.sendRequestAndGetResponse(
+					new Request(RequestType.UserConnect, user));
+			Alert alert = new Alert(AlertType.INFORMATION);
+			if(response.getType() == ResponseType.SuccessfulConnect) {
+				alert.setContentText("Успешный вход!");
+			}else {
+				alert.setContentText((String)response.getObject());
+			}
+			alert.showAndWait();
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("Неправильный формат данных!\n" + e.getMessage());
+			alert.showAndWait();
+		} catch(IOException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("Не удалось подключиться!\n" + e.getMessage());
+			alert.showAndWait();
+		}
+	}
+
+
 
 }

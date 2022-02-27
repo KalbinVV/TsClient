@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
@@ -21,8 +21,8 @@
                      </font></Text>
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                      <children>
-                        <TextField prefHeight="24.0" prefWidth="209.0" promptText="localhost" style="-fx-border-color: black;" />
-                        <TextField promptText="2080" style="-fx-border-color: black;" />
+                        <TextField fx:id="addressField" prefHeight="24.0" prefWidth="209.0" promptText="localhost" style="-fx-border-color: black;" />
+                        <TextField fx:id="portField" promptText="2080" style="-fx-border-color: black;" />
                      </children>
                   </HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Логин:" textAlignment="CENTER" wrappingWidth="243.88720703125">

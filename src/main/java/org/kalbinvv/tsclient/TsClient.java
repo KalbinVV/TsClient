@@ -13,6 +13,7 @@ public class TsClient extends Application {
 
     private static Stage stage;
     private static Scene scene;
+    private static Config config;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -30,7 +31,12 @@ public class TsClient extends Application {
     }
 
     public static void main(String[] args) {
+    	config = new Config();
         launch();
     }
+
+	public static Config getConfig() {
+		return config;
+	}
 
 }
