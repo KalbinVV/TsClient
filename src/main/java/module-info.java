@@ -1,10 +1,11 @@
 module org.kalbinvv.tsclient {
-    requires javafx.controls;
-    requires javafx.fxml;
+    requires transitive javafx.controls;
+    requires transitive javafx.fxml;
 	requires javafx.graphics;
 	requires javafx.base;
-	requires TSCore;
+	requires transitive TSCore;
 
     opens org.kalbinvv.tsclient to javafx.fxml;
+    opens org.kalbinvv.tsclient.controllers to javafx.fxml;
     exports org.kalbinvv.tsclient;
 }

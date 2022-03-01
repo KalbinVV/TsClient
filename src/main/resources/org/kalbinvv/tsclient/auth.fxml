@@ -22,7 +22,7 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" spacing="2.0">
                      <children>
                         <TextField fx:id="addressField" prefHeight="24.0" prefWidth="209.0" promptText="localhost" style="-fx-border-color: black;" />
-                        <TextField fx:id="portField" promptText="2080" style="-fx-border-color: black;" />
+                        <TextField fx:id="portField" promptText="2090" style="-fx-border-color: black;" />
                      </children>
                   </HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Логин:" textAlignment="CENTER" wrappingWidth="243.88720703125">
@@ -35,8 +35,8 @@
                         <Font name="System Bold" size="13.0" />
                      </font></Text>
                   <PasswordField fx:id="passField" style="-fx-border-color: black;" />
-                  <Button mnemonicParsing="false" onAction="#loginUser" prefHeight="24.0" prefWidth="280.0" style="-fx-background-color: black;" text="Войти" textFill="WHITE" />
-                  <Button mnemonicParsing="false" onAction="#anonymLogin" prefHeight="24.0" prefWidth="270.0" style="-fx-background-color: black;" text="Анонимная авторизация" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onAction="#onLogin" prefHeight="24.0" prefWidth="280.0" style="-fx-background-color: black;" text="Войти" textFill="WHITE" />
+                  <Button mnemonicParsing="false" onAction="#onAnonymLogin" prefHeight="24.0" prefWidth="270.0" style="-fx-background-color: black;" text="Анонимная авторизация" textFill="WHITE" />
                </children>
             </VBox>
          </children>

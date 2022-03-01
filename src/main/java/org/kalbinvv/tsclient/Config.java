@@ -1,13 +1,11 @@
 package org.kalbinvv.tsclient;
 
-import java.net.InetAddress;
-
 import org.kalbinvv.tscore.user.User;
 
 public class Config {
 
 	private User user;
-	private InetAddress serverAddress;
+	private ServerAddress serverAddress;
 	
 	public User getUser() {
 		return user;
@@ -17,11 +15,11 @@ public class Config {
 		this.user = user;
 	}
 	
-	public InetAddress getServerAddress() {
+	public ServerAddress getServerAddress() {
 		return serverAddress;
 	}
 	
-	public void setServerAddress(InetAddress serverAddress) {
+	public void setServerAddress(ServerAddress serverAddress) {
 		this.serverAddress = serverAddress;
 	}
 	

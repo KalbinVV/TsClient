@@ -1,13 +1,14 @@
-package org.kalbinvv.tsclient;
+package org.kalbinvv.tsclient.controllers;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
+import org.kalbinvv.tsclient.Config;
+import org.kalbinvv.tsclient.ServerAddress;
+import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tscore.net.Connection;
 import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
@@ -24,7 +25,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 
-public class Controller implements Initializable{
+public class AuthController implements Initializable{
 
 	@FXML
 	private TextField loginField;
@@ -43,12 +44,12 @@ public class Controller implements Initializable{
 		//
 	}
 
-	public void loginUser(ActionEvent event) {
+	public void onLogin(ActionEvent event) {
 		User user = new AuthorisedUser(loginField.getText(), passField.getText());
 		authUser(user);
 	}
 
-	public void anonymLogin(ActionEvent event) {
+	public void onAnonymLogin(ActionEvent event) {
 		User user = new AnonymousUser(loginField.getText());
 		authUser(user);
 	}
@@ -66,13 +67,16 @@ public class Controller implements Initializable{
 			Connection connection = new Connection(socket);
 			Response response = connection.sendRequestAndGetResponse(
 					new Request(RequestType.UserConnect, user));
-			Alert alert = new Alert(AlertType.INFORMATION);
 			if(response.getType() == ResponseType.SuccessfulConnect) {
-				alert.setContentText("Успешный вход!");
+				Config config = TsClient.getConfig();
+				config.setUser(user);
+				config.setServerAddress(serverAddress);
+				TsClient.setRoot("primary.fxml", new PrimaryController());
 			}else {
+				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setContentText((String)response.getObject());
+				alert.showAndWait();
 			}
-			alert.showAndWait();
 		} catch (NumberFormatException e) {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setContentText("Неправильный формат данных!\n" + e.getMessage());
