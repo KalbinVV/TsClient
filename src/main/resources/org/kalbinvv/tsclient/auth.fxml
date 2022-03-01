@@ -26,7 +26,6 @@
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Пароль:" textAlignment="CENTER" wrappingWidth="244.2978515625" />
                   <PasswordField fx:id="passField" />
                   <Button mnemonicParsing="false" onAction="#onLogin" prefHeight="24.0" prefWidth="280.0" text="Войти" />
-                  <Button mnemonicParsing="false" onAction="#onAnonymLogin" prefHeight="24.0" prefWidth="270.0" text="Анонимная авторизация" />
                </children>
             </VBox>
          </children>

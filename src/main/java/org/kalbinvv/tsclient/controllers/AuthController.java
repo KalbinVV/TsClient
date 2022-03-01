@@ -1,6 +1,7 @@
 package org.kalbinvv.tsclient.controllers;
 
 import java.io.IOException;
+
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
@@ -14,8 +15,6 @@ import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
-import org.kalbinvv.tscore.user.AnonymousUser;
-import org.kalbinvv.tscore.user.AuthorisedUser;
 import org.kalbinvv.tscore.user.User;
 
 import javafx.event.ActionEvent;
@@ -45,12 +44,7 @@ public class AuthController implements Initializable{
 	}
 
 	public void onLogin(ActionEvent event) {
-		User user = new AuthorisedUser(loginField.getText(), passField.getText());
-		authUser(user);
-	}
-
-	public void onAnonymLogin(ActionEvent event) {
-		User user = new AnonymousUser(loginField.getText());
+		User user = new User(loginField.getText(), passField.getText());
 		authUser(user);
 	}
 
@@ -70,6 +64,7 @@ public class AuthController implements Initializable{
 			if(response.getType() == ResponseType.Successful) {
 				Config config = TsClient.getConfig();
 				config.setUser((User)response.getObject());
+				config.getUser().setAddress(InetAddress.getLocalHost());
 				config.setServerAddress(serverAddress);
 				TsClient.setRoot("primary.fxml", new PrimaryController());
 			}else {
