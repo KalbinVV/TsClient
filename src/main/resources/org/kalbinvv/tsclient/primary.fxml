@@ -23,6 +23,7 @@
                   <Button mnemonicParsing="false" onAction="#onTestsButton" prefHeight="36.0" prefWidth="77.0" text="Тесты" />
                   <Button mnemonicParsing="false" onAction="#onSettingsButton" prefHeight="36.0" prefWidth="108.0" text="Настройки" />
                   <Button mnemonicParsing="false" onAction="#onAdminButton" prefHeight="35.0" prefWidth="128.0" text="Админ. кабинет" />
+                  <Button mnemonicParsing="false" onAction="#onUsersButton" prefHeight="35.0" prefWidth="125.0" text="Пользователи" />
                </children>
             </HBox>
             <VBox fx:id="mainBox" layoutY="93.0" prefHeight="308.0" prefWidth="643.0" spacing="5.0" styleClass="mainbox" />

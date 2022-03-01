@@ -1,7 +1,7 @@
 package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
-
+import java.net.UnknownHostException;
 
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
@@ -29,6 +29,7 @@ public class AdminLayout extends Layout{
 	@Override
 	public void draw() {
 		clearNodes();
+		Config config = TsClient.getConfig();
 		Text addText = new Text("Добавить нового пользователя: ");
 		TextField loginField = new TextField();
 		loginField.setPromptText("Логин");
@@ -36,15 +37,53 @@ public class AdminLayout extends Layout{
 		passField.setPromptText("Пароль");
 		Button addUserButton = new Button("Добавить пользователя!");
 		Button addAdminUserButton = new Button("Добавить пользователя с административными правами!");
+		Button changeAnonymousUsersSettingButton = new Button();
+		try {
+			Connection connection = new Connection(config.getServerAddress().toSocket());
+			Response anonymousUsersResponse = connection.sendRequestAndGetResponse(new Request(RequestType.GetAnonymousUsersAllowedSetting, 
+					null, 
+					config.getUser()));
+			if(anonymousUsersResponse.getType() == ResponseType.Successful) {
+				boolean isAnonymousUsersAllowed = (boolean) anonymousUsersResponse.getObject();
+				if(isAnonymousUsersAllowed) {
+					changeAnonymousUsersSettingButton.setText(
+							"Запретить подключение анонимным пользователям!");
+				}else {
+					changeAnonymousUsersSettingButton.setText(
+							"Разрешить подключение анонимным пользователям!");
+				}
+				changeAnonymousUsersSettingButton.setOnAction((ActionEvent event) -> {
+					Response response = connection.sendRequestAndGetResponse(new Request(
+							RequestType.ChangesAnonymousUsersAllowedSetting, null, config.getUser()));
+					if(response.getType() == ResponseType.Successful) {
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setContentText("Настройка успешно изменена!");
+						alert.showAndWait();
+					}else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setContentText("Не удалить изменить настройки!\n" 
+								+ (String) response.getObject());
+						alert.showAndWait();
+					}
+				});
+			}else {
+				String errorMsg = (String) anonymousUsersResponse.getObject();
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setContentText("Не удалось получить настройки!\n" + errorMsg);
+				alert.showAndWait();
+			}
+		} catch (IOException ex) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("Не удалось получить настройки!\n" + ex.getMessage());
+			alert.showAndWait();
+		}
 		addUserButton.setOnAction((ActionEvent event) -> {
-			UserEntry userEntry = new UserEntry(loginField.getText(), passField.getText());
 			try {
-				Config config = TsClient.getConfig();
-				Connection connection = new Connection(config.getServerAddress()
-						.toSocket());
+				Connection connection = new Connection(config.getServerAddress().toSocket());
+				UserEntry userEntry = new UserEntry(loginField.getText(), passField.getText());
 				Response response = connection.sendRequestAndGetResponse(
 						new Request(RequestType.AddUser, userEntry, 
-						config.getUser()));
+								config.getUser()));
 				if(response.getType() == ResponseType.Successful) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Пользователь успешно добавлен!");
@@ -55,22 +94,19 @@ public class AdminLayout extends Layout{
 							+ (String)response.getObject());
 					alert.showAndWait();
 				}
-			} catch (IOException e) {
-				String errorMsg = e.getMessage();
+			}catch(IOException ex) {
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("Не удалось добавить пользователя!\n" + errorMsg);
+				alert.setContentText("Не удалось добавить пользователя!\n" + ex.getMessage());
 				alert.showAndWait();
 			}
 		});
 		addAdminUserButton.setOnAction((ActionEvent event) -> {
-			UserEntry userEntry = new UserEntry(loginField.getText(), passField.getText());
 			try {
-				Config config = TsClient.getConfig();
-				Connection connection = new Connection(config.getServerAddress()
-						.toSocket());
+				Connection connection = new Connection(config.getServerAddress().toSocket());
+				UserEntry userEntry = new UserEntry(loginField.getText(), passField.getText());
 				Response response = connection.sendRequestAndGetResponse(
 						new Request(RequestType.AddAdminUser, userEntry, 
-						config.getUser()));
+								config.getUser()));
 				if(response.getType() == ResponseType.Successful) {
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setContentText("Пользователь успешно добавлен!");
@@ -81,10 +117,9 @@ public class AdminLayout extends Layout{
 							+ (String)response.getObject());
 					alert.showAndWait();
 				}
-			} catch (IOException e) {
-				String errorMsg = e.getMessage();
+			}catch(IOException ex) {
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("Не удалось добавить пользователя!\n" + errorMsg);
+				alert.setContentText("Не удалось добавить пользователя!\n" + ex.getMessage());
 				alert.showAndWait();
 			}
 		});
@@ -93,7 +128,8 @@ public class AdminLayout extends Layout{
 		addNode(passField);
 		addNode(addUserButton);
 		addNode(addAdminUserButton);
+		addNode(changeAnonymousUsersSettingButton);
 	}
-	
+
 
 }

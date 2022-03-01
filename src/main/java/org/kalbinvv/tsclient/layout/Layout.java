@@ -1,5 +1,8 @@
 package org.kalbinvv.tsclient.layout;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
