@@ -25,7 +25,7 @@
                   <Button mnemonicParsing="false" onAction="#onAdminButton" prefHeight="35.0" prefWidth="128.0" text="Админ. кабинет" />
                </children>
             </HBox>
-            <VBox fx:id="mainBox" layoutY="93.0" prefHeight="308.0" prefWidth="643.0" styleClass="mainbox" />
+            <VBox fx:id="mainBox" layoutY="93.0" prefHeight="308.0" prefWidth="643.0" spacing="5.0" styleClass="mainbox" />
          </children>
     </AnchorPane>
   </children>

@@ -14,7 +14,21 @@
     -fx-font-size: 14px;
 }
 
+.mainBox Button {
+	-fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
 .auth Text {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.auth Button {
+	-fx-background-color: black;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 14px;
 }
