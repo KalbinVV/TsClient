@@ -67,9 +67,9 @@ public class AuthController implements Initializable{
 			Connection connection = new Connection(socket);
 			Response response = connection.sendRequestAndGetResponse(
 					new Request(RequestType.UserConnect, user));
-			if(response.getType() == ResponseType.SuccessfulConnect) {
+			if(response.getType() == ResponseType.Successful) {
 				Config config = TsClient.getConfig();
-				config.setUser(user);
+				config.setUser((User)response.getObject());
 				config.setServerAddress(serverAddress);
 				TsClient.setRoot("primary.fxml", new PrimaryController());
 			}else {

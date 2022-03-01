@@ -1,5 +1,9 @@
 package org.kalbinvv.tsclient;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 public class ServerAddress {
 
 	private String serverAddress;
@@ -24,6 +28,10 @@ public class ServerAddress {
 
 	public void setServerPort(Integer serverPort) {
 		this.serverPort = serverPort;
+	}
+	
+	public Socket toSocket() throws UnknownHostException, IOException {
+		return new Socket(serverAddress, serverPort);
 	}
 	
 	@Override

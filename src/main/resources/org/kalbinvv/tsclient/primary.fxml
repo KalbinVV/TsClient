@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
@@ -15,33 +14,18 @@
             <Line endX="641.5" endY="41.5" layoutX="2.0" layoutY="-17.0" startY="41.5" />
             <HBox layoutX="5.0" layoutY="3.0" prefHeight="22.0" prefWidth="635.0" spacing="10.0">
                <children>
-                  <Text fx:id="loginNameField" strokeType="OUTSIDE" strokeWidth="0.0" text="login">
-                     <font>
-                        <Font name="System Bold Italic" size="13.0" />
-                     </font>
-                  </Text>
+                  <Text fx:id="loginNameField" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="loginField" text="login" />
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" layoutY="32.0" prefHeight="39.0" prefWidth="643.0" spacing="2.0">
+            <HBox alignment="TOP_CENTER" layoutY="32.0" prefHeight="39.0" prefWidth="643.0" spacing="2.0" styleClass="toolbar">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onProfileButton" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: black;" text="Профиль" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#onTestsButton" prefHeight="36.0" prefWidth="77.0" style="-fx-background-color: black;" text="Тесты" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#onSettingsButton" prefHeight="36.0" prefWidth="108.0" style="-fx-background-color: black;" text="Настройки" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="13.0" />
-                     </font>
-                  </Button>
+                  <Button mnemonicParsing="false" onAction="#onProfileButton" prefHeight="36.0" prefWidth="100.0" text="Профиль" />
+                  <Button mnemonicParsing="false" onAction="#onTestsButton" prefHeight="36.0" prefWidth="77.0" text="Тесты" />
+                  <Button mnemonicParsing="false" onAction="#onSettingsButton" prefHeight="36.0" prefWidth="108.0" text="Настройки" />
+                  <Button mnemonicParsing="false" onAction="#onAdminButton" prefHeight="35.0" prefWidth="128.0" text="Админ. кабинет" />
                </children>
             </HBox>
-            <VBox fx:id="mainBox" layoutY="93.0" prefHeight="308.0" prefWidth="643.0" />
+            <VBox fx:id="mainBox" layoutY="93.0" prefHeight="308.0" prefWidth="643.0" styleClass="mainbox" />
          </children>
     </AnchorPane>
   </children>
