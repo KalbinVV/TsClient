@@ -1,7 +1,6 @@
 package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
@@ -29,6 +28,19 @@ public class AdminLayout extends Layout{
 	@Override
 	public void draw() {
 		clearNodes();
+		drawUserAddInterface();
+		try {
+			drawChangeUsersAllowedSettingInterface();
+		} catch(IOException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("Не удалость отобразить интерфейс изменения настроек подключения!\n" 
+					+ e.getMessage());
+			alert.showAndWait();
+		}
+	}
+
+
+	private void drawUserAddInterface() {
 		Config config = TsClient.getConfig();
 		Text addText = new Text("Добавить нового пользователя: ");
 		TextField loginField = new TextField();
@@ -37,46 +49,6 @@ public class AdminLayout extends Layout{
 		passField.setPromptText("Пароль");
 		Button addUserButton = new Button("Добавить пользователя!");
 		Button addAdminUserButton = new Button("Добавить пользователя с административными правами!");
-		Button changeAnonymousUsersSettingButton = new Button();
-		try {
-			Connection connection = new Connection(config.getServerAddress().toSocket());
-			Response anonymousUsersResponse = connection.sendRequestAndGetResponse(new Request(RequestType.GetAnonymousUsersAllowedSetting, 
-					null, 
-					config.getUser()));
-			if(anonymousUsersResponse.getType() == ResponseType.Successful) {
-				boolean isAnonymousUsersAllowed = (boolean) anonymousUsersResponse.getObject();
-				if(isAnonymousUsersAllowed) {
-					changeAnonymousUsersSettingButton.setText(
-							"Запретить подключение анонимным пользователям!");
-				}else {
-					changeAnonymousUsersSettingButton.setText(
-							"Разрешить подключение анонимным пользователям!");
-				}
-				changeAnonymousUsersSettingButton.setOnAction((ActionEvent event) -> {
-					Response response = connection.sendRequestAndGetResponse(new Request(
-							RequestType.ChangesAnonymousUsersAllowedSetting, null, config.getUser()));
-					if(response.getType() == ResponseType.Successful) {
-						Alert alert = new Alert(AlertType.INFORMATION);
-						alert.setContentText("Настройка успешно изменена!");
-						alert.showAndWait();
-					}else {
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setContentText("Не удалить изменить настройки!\n" 
-								+ (String) response.getObject());
-						alert.showAndWait();
-					}
-				});
-			}else {
-				String errorMsg = (String) anonymousUsersResponse.getObject();
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("Не удалось получить настройки!\n" + errorMsg);
-				alert.showAndWait();
-			}
-		} catch (IOException ex) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText("Не удалось получить настройки!\n" + ex.getMessage());
-			alert.showAndWait();
-		}
 		addUserButton.setOnAction((ActionEvent event) -> {
 			try {
 				Connection connection = new Connection(config.getServerAddress().toSocket());
@@ -128,8 +100,46 @@ public class AdminLayout extends Layout{
 		addNode(passField);
 		addNode(addUserButton);
 		addNode(addAdminUserButton);
-		addNode(changeAnonymousUsersSettingButton);
 	}
 
+	private void drawChangeUsersAllowedSettingInterface() throws IOException {
+		Config config = TsClient.getConfig();
+		Connection connection = new Connection(config.getServerAddress().toSocket());
+		Button button = new Button();
+		Response anymousUsersAllowedResponse = connection.sendRequestAndGetResponse(new Request(
+				RequestType.GetAnonymousUsersAllowedSetting, null, config.getUser()));
+		if(anymousUsersAllowedResponse.getType() == ResponseType.Successful) {
+			boolean isAnonymousUsersAllowed = (boolean) anymousUsersAllowedResponse.getObject();
+			button.setText( (isAnonymousUsersAllowed ? "Запретить" : "Разрешить") 
+					+ " подключение анонимным пользователям.");
+		}else {
+			button.setText("Не удалось получить статус!");
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText("Не удалость получить настройки!\n" + 
+					(String) anymousUsersAllowedResponse.getObject());
+			alert.showAndWait();
+		}
+		button.setOnAction((ActionEvent event) -> {
+			try {
+				connection.reconnect();
+				Response response = connection.sendRequestAndGetResponse(
+						new Request(RequestType.ChangesAnonymousUsersAllowedSetting, null,
+								config.getUser()));
+				if(response.getType() == ResponseType.Successful) {
+					draw();
+				}else {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setContentText("Не удалось изменить настройку!\n" 
+							+ (String) response.getObject());
+					alert.showAndWait();
+				}
+			} catch (IOException e) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setContentText("Возникла ошибка при изменение настройки!\n" + e.getMessage());
+				alert.showAndWait();
+			}
+		});
+		addNode(button);
+	}
 
 }

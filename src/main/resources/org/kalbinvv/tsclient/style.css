@@ -14,7 +14,7 @@
     -fx-font-size: 14px;
 }
 
-.mainBox Button {
+Button {
 	-fx-background-color: black;
     -fx-text-fill: white;
     -fx-font-weight: bold;

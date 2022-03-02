@@ -31,6 +31,7 @@ public class UsersLayout extends Layout{
 					new Request(RequestType.GetOnlineUsersList, 
 							null, config.getUser()));
 			if(response.getType() == ResponseType.Successful) {
+				@SuppressWarnings("unchecked")
 				List<User> onlineUsers = (List<User>) response.getObject();
 				for(User user : onlineUsers) {
 					Text userText = new Text(user.getName() + " " + user.getAddress().toString());
