@@ -23,9 +23,14 @@ public class TsClient extends Application {
 	public void start(Stage stage) throws IOException {
 		TsClient.stage = stage;
 		TsClient.styleURL = getClass().getResource("style.css");
+		setResizable(false);
 		setRoot("auth.fxml", new AuthController());
 	}
 
+	public static void setResizable(boolean resizeable) {
+		stage.setResizable(resizeable);
+	}
+	
 	public static void setRoot(String url, Initializable controller) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(TsClient.class.getResource(url));

@@ -10,8 +10,11 @@ import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.test.Test;
 
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -36,6 +39,18 @@ public class TestsLayout extends Layout{
 				Text testNode = new Text("Название: " + test.getName() + "\n" 
 						+ "Описание: " + test.getDescription());
 				addNode(testNode);
+				Button startTestButton = new Button("Начать тест");
+				Button infoTestButton = new Button("Информация о тесте");
+				infoTestButton.setOnAction((ActionEvent event) -> {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setContentText(test.getDescription());
+					alert.showAndWait();
+				});
+				HBox hBox = new HBox();
+				hBox.setSpacing(5);
+				hBox.getChildren().add(startTestButton);
+				hBox.getChildren().add(infoTestButton);
+				addNode(hBox);
 			}
 		} catch (IOException e) {
 			Alert alert = new Alert(AlertType.ERROR);

@@ -48,7 +48,9 @@ public class AdminLayout extends Layout{
 		TextField passField = new TextField();
 		passField.setPromptText("Пароль");
 		Button addUserButton = new Button("Добавить пользователя!");
+		addUserButton.setMaxWidth(Double.MAX_VALUE);
 		Button addAdminUserButton = new Button("Добавить пользователя с административными правами!");
+		addAdminUserButton.setMaxWidth(Double.MAX_VALUE);
 		addUserButton.setOnAction((ActionEvent event) -> {
 			try {
 				Connection connection = new Connection(config.getServerAddress().toSocket());
@@ -106,6 +108,7 @@ public class AdminLayout extends Layout{
 		Config config = TsClient.getConfig();
 		Connection connection = new Connection(config.getServerAddress().toSocket());
 		Button button = new Button();
+		button.setMaxWidth(Double.MAX_VALUE);
 		Response anymousUsersAllowedResponse = connection.sendRequestAndGetResponse(new Request(
 				RequestType.GetAnonymousUsersAllowedSetting, null, config.getUser()));
 		if(anymousUsersAllowedResponse.getType() == ResponseType.Successful) {

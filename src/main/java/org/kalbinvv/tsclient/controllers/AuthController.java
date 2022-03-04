@@ -66,6 +66,7 @@ public class AuthController implements Initializable{
 				config.setUser((User)response.getObject());
 				config.getUser().setAddress(InetAddress.getLocalHost());
 				config.setServerAddress(serverAddress);
+				TsClient.setResizable(true);
 				TsClient.setRoot("primary.fxml", new PrimaryController());
 			}else {
 				Alert alert = new Alert(AlertType.INFORMATION);

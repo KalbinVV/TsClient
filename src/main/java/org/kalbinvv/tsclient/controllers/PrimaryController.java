@@ -1,6 +1,7 @@
 package org.kalbinvv.tsclient.controllers;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,21 +11,25 @@ import org.kalbinvv.tsclient.layout.*;
 import org.kalbinvv.tscore.net.Connection;
 import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
+import org.kalbinvv.tscore.user.UserType;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.WindowEvent;
 
 public class PrimaryController implements Initializable{
-
-	@FXML
-	private Text loginNameField;
-
+	
 	@FXML
 	private VBox mainBox;
+	
+	@FXML
+	private Button adminButton;
+	
+	@FXML
+	private Button usersButton;
 
 	private Layout profileLayout;
 	private Layout testsLayout;
@@ -33,16 +38,13 @@ public class PrimaryController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		if(TsClient.getConfig().getUser().getType() != UserType.Admin) {
+			adminButton.setVisible(false);
+			usersButton.setVisible(false);
+		}
 		TsClient.getStage().setOnCloseRequest((WindowEvent event) -> {
-			try {
-				Config config = TsClient.getConfig();
-				Connection connection = new Connection(config.getServerAddress().toSocket());
-				connection.sendRequest(new Request(RequestType.UserExit, config.getUser()));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			sendUserExitRequest();
 		});
-		loginNameField.setText(TsClient.getConfig().getUser().getName());
 		profileLayout = new ProfileLayout(mainBox);
 		testsLayout = new TestsLayout(mainBox);
 		adminLayout = new AdminLayout(mainBox);
@@ -68,6 +70,22 @@ public class PrimaryController implements Initializable{
 	
 	public void onUsersButton(ActionEvent event) {
 		usersLayout.draw();
+	}
+	
+	public void onQuitButton(ActionEvent event) {
+		sendUserExitRequest();
+		TsClient.setRoot("auth.fxml", new AuthController());
+		TsClient.setResizable(false);
+	}
+	
+	private void sendUserExitRequest() {
+		try {
+			Config config = TsClient.getConfig();
+			Connection connection = new Connection(config.getServerAddress().toSocket());
+			connection.sendRequest(new Request(RequestType.UserExit, config.getUser()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
