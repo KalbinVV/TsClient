@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
+import org.kalbinvv.tsclient.controllers.TestController;
 import org.kalbinvv.tscore.net.Connection;
 import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
@@ -40,6 +41,10 @@ public class TestsLayout extends Layout{
 						+ "Описание: " + test.getDescription());
 				addNode(testNode);
 				Button startTestButton = new Button("Начать тест");
+				startTestButton.setOnAction((ActionEvent event) -> {
+					config.getUser().setTest(test);
+					TsClient.setRoot("test.fxml", new TestController());
+				});
 				Button infoTestButton = new Button("Информация о тесте");
 				infoTestButton.setOnAction((ActionEvent event) -> {
 					Alert alert = new Alert(AlertType.INFORMATION);

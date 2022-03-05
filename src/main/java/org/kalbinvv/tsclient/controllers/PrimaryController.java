@@ -30,25 +30,31 @@ public class PrimaryController implements Initializable{
 	
 	@FXML
 	private Button usersButton;
+	
+	@FXML
+	private Button logsButton;
 
 	private Layout profileLayout;
 	private Layout testsLayout;
 	private Layout adminLayout;
 	private Layout usersLayout;
+	private Layout logsLayout;
+	private Layout settingsLayout;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		if(TsClient.getConfig().getUser().getType() != UserType.Admin) {
 			adminButton.setVisible(false);
 			usersButton.setVisible(false);
+			logsButton.setVisible(false);
 		}
-		TsClient.getStage().setOnCloseRequest((WindowEvent event) -> {
-			sendUserExitRequest();
-		});
+		TsClient.getStage().setOnCloseRequest((WindowEvent event) -> sendUserExitRequest());
 		profileLayout = new ProfileLayout(mainBox);
 		testsLayout = new TestsLayout(mainBox);
 		adminLayout = new AdminLayout(mainBox);
 		usersLayout = new UsersLayout(mainBox);
+		logsLayout = new LogsLayout(mainBox);
+		settingsLayout = new SettingsLayout(mainBox);
 		profileLayout.draw();
 	}
 
@@ -61,7 +67,7 @@ public class PrimaryController implements Initializable{
 	}
 
 	public void onSettingsButton(ActionEvent event) {
-		//
+		settingsLayout.draw();
 	}
 
 	public void onAdminButton(ActionEvent event) {
@@ -76,6 +82,10 @@ public class PrimaryController implements Initializable{
 		sendUserExitRequest();
 		TsClient.setRoot("auth.fxml", new AuthController());
 		TsClient.setResizable(false);
+	}
+	
+	public void onLogsButton(ActionEvent event) {
+		logsLayout.draw();
 	}
 	
 	private void sendUserExitRequest() {

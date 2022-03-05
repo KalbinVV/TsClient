@@ -37,6 +37,7 @@
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSettingsButton" text="Настройки" />
                   <Button fx:id="adminButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAdminButton" text="Администрирование" />
                   <Button fx:id="usersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onUsersButton" text="Пользователи" />
+                  <Button fx:id="logsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLogsButton" text="Журнал действий" />
               </items>
             </ToolBar>
             <VBox fx:id="mainBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="326.0" prefWidth="638.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
