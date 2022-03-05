@@ -23,7 +23,7 @@
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="350.0">
                <children>
                   <Button fx:id="nextQuestionButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNextQuestionButton" text="Продолжить" />
-                  <Button fx:id="prevQustionButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPrevQuestionButton" text="Вернуться обратно" />
+                  <Button fx:id="prevQuestionButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPrevQuestionButton" text="Вернуться обратно" />
                </children>
             </VBox>
          </children>
