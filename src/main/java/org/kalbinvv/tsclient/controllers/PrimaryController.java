@@ -33,6 +33,9 @@ public class PrimaryController implements Initializable{
 	
 	@FXML
 	private Button logsButton;
+	
+	@FXML
+	private Button testsResultsButton;
 
 	private Layout profileLayout;
 	private Layout testsLayout;
@@ -40,6 +43,7 @@ public class PrimaryController implements Initializable{
 	private Layout usersLayout;
 	private Layout logsLayout;
 	private Layout settingsLayout;
+	private Layout testsResultsLayout;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -47,6 +51,7 @@ public class PrimaryController implements Initializable{
 			adminButton.setVisible(false);
 			usersButton.setVisible(false);
 			logsButton.setVisible(false);
+			testsResultsButton.setVisible(false);
 		}
 		TsClient.getStage().setOnCloseRequest((WindowEvent event) -> sendUserExitRequest());
 		profileLayout = new ProfileLayout(mainBox);
@@ -55,6 +60,7 @@ public class PrimaryController implements Initializable{
 		usersLayout = new UsersLayout(mainBox);
 		logsLayout = new LogsLayout(mainBox);
 		settingsLayout = new SettingsLayout(mainBox);
+		testsResultsLayout = new TestsResultsLayout(mainBox);
 		profileLayout.draw();
 	}
 
@@ -86,6 +92,10 @@ public class PrimaryController implements Initializable{
 	
 	public void onLogsButton(ActionEvent event) {
 		logsLayout.draw();
+	}
+	
+	public void onTestsResultsButton(ActionEvent event) {
+		testsResultsLayout.draw();
 	}
 	
 	private void sendUserExitRequest() {

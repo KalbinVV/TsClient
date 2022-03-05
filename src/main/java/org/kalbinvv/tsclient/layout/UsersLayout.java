@@ -28,7 +28,7 @@ public class UsersLayout extends Layout{
 			Config config = TsClient.getConfig();
 			Connection connection = new Connection(config.getServerAddress().toSocket());
 			Response response = connection.sendRequestAndGetResponse(
-					new Request(RequestType.GetOnlineUsersList, 
+					new Request(RequestType.GetOnlineUsers, 
 							null, config.getUser()));
 			if(response.getType() == ResponseType.Successful) {
 				@SuppressWarnings("unchecked")

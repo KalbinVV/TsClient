@@ -35,7 +35,7 @@ public class TestsLayout extends Layout{
 			Connection connection = new Connection(config.getServerAddress().toSocket());
 			@SuppressWarnings("unchecked")
 			List<Test> tests = (List<Test>) connection.sendRequestAndGetResponse(
-					new Request(RequestType.GetTestsList, null, config.getUser())).getObject();
+					new Request(RequestType.GetTests, null, config.getUser())).getObject();
 			for(Test test : tests) {
 				Text testNode = new Text("Название: " + test.getName() + "\n" 
 						+ "Описание: " + test.getDescription());

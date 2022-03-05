@@ -1,0 +1,66 @@
+package org.kalbinvv.tsclient.layout;
+
+import java.io.IOException;
+
+import java.util.List;
+
+import org.kalbinvv.tsclient.Config;
+import org.kalbinvv.tsclient.TsClient;
+import org.kalbinvv.tscore.net.Connection;
+import org.kalbinvv.tscore.net.Request;
+import org.kalbinvv.tscore.net.RequestType;
+import org.kalbinvv.tscore.net.Response;
+import org.kalbinvv.tscore.net.ResponseType;
+import org.kalbinvv.tscore.test.TestResult;
+
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
+public class TestsResultsLayout extends Layout{
+
+	public TestsResultsLayout(VBox vBox) {
+		super(vBox);
+	}
+
+	@Override
+	public void draw() {
+		clearNodes();
+		ScrollPane resultsPane = new ScrollPane();
+		resultsPane.setMaxWidth(Double.MAX_VALUE);
+		VBox resultsBox = new VBox();
+		resultsBox.setSpacing(5);
+		Config config = TsClient.getConfig();
+		try {
+			Connection connection = new Connection(config.getServerAddress().toSocket());
+			Response response = connection.sendRequestAndGetResponse(
+					new Request(RequestType.GetTestsResults, null, config.getUser()));
+			if(response.getType() == ResponseType.Unsuccessful) {
+				Text errorText = new Text("Не удалось получить результаты: " 
+						+ (String) response.getObject());
+				resultsBox.getChildren().add(errorText);
+			} else {
+				@SuppressWarnings("unchecked")
+				List<TestResult> testResults = (List<TestResult>) response.getObject();
+				for(TestResult testResult : testResults) {
+					VBox testResultBox = new VBox();
+					Text authorText = new Text("Пользователь: " + testResult.getUser().getName());
+					Text resultText = new Text("Результат:\n" + testResult.getAmountOfCorrectAnswers() 
+					+ "/" + testResult.getAmountOfAnswers()
+					+ "\n" + Math.floor(Double.valueOf(testResult.getAmountOfCorrectAnswers()) 
+					/ testResult.getAmountOfAnswers() * 100) + "%");
+					Text testDescription = new Text("Тест:\n" + testResult.getTest().getName()
+							+ "\n" + testResult.getTest().getDescription());
+					testResultBox.getChildren().addAll(authorText, resultText, testDescription);
+					resultsBox.getChildren().add(testResultBox);
+				}
+			}
+		} catch (IOException e) {
+			Text errorText = new Text("Не удалось получить результаты: " + e.getMessage());
+			resultsBox.getChildren().add(errorText);
+		}
+		resultsPane.setContent(resultsBox);
+		addNode(resultsPane);
+	}
+
+}

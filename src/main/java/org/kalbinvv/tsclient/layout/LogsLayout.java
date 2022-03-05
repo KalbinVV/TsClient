@@ -28,6 +28,7 @@ public class LogsLayout extends Layout{
 		logsPane.setMaxWidth(Double.MAX_VALUE);
 		logsPane.setMaxHeight(Double.MAX_VALUE);
 		VBox logsBox = new VBox();
+		logsBox.setSpacing(5);
 		logsBox.setMaxWidth(Double.MAX_VALUE);
 		Config config = TsClient.getConfig();
 		try {
