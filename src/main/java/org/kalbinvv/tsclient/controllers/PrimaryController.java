@@ -2,9 +2,11 @@ package org.kalbinvv.tsclient.controllers;
 
 import java.io.IOException;
 
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.kalbinvv.tsclient.AlertInformation;
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.layout.*;
@@ -36,6 +38,9 @@ public class PrimaryController implements Initializable{
 	
 	@FXML
 	private Button testsResultsButton;
+	
+	@FXML
+	private Button testsEditorButton;
 
 	private Layout profileLayout;
 	private Layout testsLayout;
@@ -52,6 +57,7 @@ public class PrimaryController implements Initializable{
 			usersButton.setVisible(false);
 			logsButton.setVisible(false);
 			testsResultsButton.setVisible(false);
+			testsEditorButton.setVisible(false);
 		}
 		TsClient.getStage().setOnCloseRequest((WindowEvent event) -> sendUserExitRequest());
 		profileLayout = new ProfileLayout(mainBox);
@@ -90,12 +96,21 @@ public class PrimaryController implements Initializable{
 		TsClient.setResizable(false);
 	}
 	
+	public void onInfoButton(ActionEvent event) {
+		new AlertInformation("Информация о программе", "Программа разработана:\n"
+				+ "Владимир Кальбин - главный разработчик\nВерсия: 0.1");
+	}
+	
 	public void onLogsButton(ActionEvent event) {
 		logsLayout.draw();
 	}
 	
 	public void onTestsResultsButton(ActionEvent event) {
 		testsResultsLayout.draw();
+	}
+	
+	public void onTestsEditorButton(ActionEvent event) {
+		//
 	}
 	
 	private void sendUserExitRequest() {

@@ -2,6 +2,8 @@ package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
 
+import org.kalbinvv.tsclient.AlertError;
+import org.kalbinvv.tsclient.AlertInformation;
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tscore.net.Connection;
@@ -12,10 +14,8 @@ import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.user.UserEntry;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -32,10 +32,7 @@ public class AdminLayout extends Layout{
 		try {
 			drawChangeUsersAllowedSettingInterface();
 		} catch(IOException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText("Не удалость отобразить интерфейс изменения настроек подключения!\n" 
-					+ e.getMessage());
-			alert.showAndWait();
+			new AlertError("Ошибка отображения!", e.getMessage());
 		}
 	}
 
@@ -53,48 +50,48 @@ public class AdminLayout extends Layout{
 		addAdminUserButton.setMaxWidth(Double.MAX_VALUE);
 		addUserButton.setOnAction((ActionEvent event) -> {
 			try {
+				if(loginField.getText().isEmpty()) {
+					throw new IOException("Имя пользователя не может быть пустым!");
+				}
+				if(passField.getText().isEmpty()) {
+					throw new IOException("Пароль пользователя не может быть пустым!");
+				}
 				Connection connection = new Connection(config.getServerAddress().toSocket());
 				UserEntry userEntry = new UserEntry(loginField.getText(), passField.getText());
 				Response response = connection.sendRequestAndGetResponse(
 						new Request(RequestType.AddUser, userEntry, 
 								config.getUser()));
 				if(response.getType() == ResponseType.Successful) {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setContentText("Пользователь успешно добавлен!");
-					alert.showAndWait();
+					new AlertInformation("Пользователь успешно добавлен!");
 				}else {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setContentText("Не удалось добавить пользователя!\n"
-							+ (String)response.getObject());
-					alert.showAndWait();
+					new AlertError("Не удалость добавить пользователя!", 
+							(String) response.getObject());
 				}
-			}catch(IOException ex) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("Не удалось добавить пользователя!\n" + ex.getMessage());
-				alert.showAndWait();
+			}catch(IOException e) {
+				new AlertError("Не удалось добавить пользователя!", e.getMessage());
 			}
 		});
 		addAdminUserButton.setOnAction((ActionEvent event) -> {
 			try {
+				if(loginField.getText().isEmpty()) {
+					throw new IOException("Имя пользователя не может быть пустым!");
+				}
+				if(passField.getText().isEmpty()) {
+					throw new IOException("Пароль пользователя не может быть пустым!");
+				}
 				Connection connection = new Connection(config.getServerAddress().toSocket());
 				UserEntry userEntry = new UserEntry(loginField.getText(), passField.getText());
 				Response response = connection.sendRequestAndGetResponse(
 						new Request(RequestType.AddAdminUser, userEntry, 
 								config.getUser()));
 				if(response.getType() == ResponseType.Successful) {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setContentText("Пользователь успешно добавлен!");
-					alert.showAndWait();
+					new AlertInformation("Пользователь успешно добавлен!");
 				}else {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setContentText("Не удалось добавить пользователя!\n"
-							+ (String)response.getObject());
-					alert.showAndWait();
+					new AlertError("Не удалость добавить пользователя!", 
+							(String) response.getObject());
 				}
-			}catch(IOException ex) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("Не удалось добавить пользователя!\n" + ex.getMessage());
-				alert.showAndWait();
+			}catch(IOException e) {
+				new AlertError("Не удалось добавить пользователя!", e.getMessage());
 			}
 		});
 		addNode(addText);
@@ -116,11 +113,8 @@ public class AdminLayout extends Layout{
 			button.setText( (isAnonymousUsersAllowed ? "Запретить" : "Разрешить") 
 					+ " подключение анонимным пользователям.");
 		}else {
-			button.setText("Не удалось получить статус!");
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText("Не удалость получить настройки!\n" + 
+			new AlertError("Не удалось получить настройки!", 
 					(String) anymousUsersAllowedResponse.getObject());
-			alert.showAndWait();
 		}
 		button.setOnAction((ActionEvent event) -> {
 			try {
@@ -131,15 +125,10 @@ public class AdminLayout extends Layout{
 				if(response.getType() == ResponseType.Successful) {
 					draw();
 				}else {
-					Alert alert = new Alert(AlertType.ERROR);
-					alert.setContentText("Не удалось изменить настройку!\n" 
-							+ (String) response.getObject());
-					alert.showAndWait();
+					new AlertError("Не удалось получить настройки!", (String) response.getObject());
 				}
 			} catch (IOException e) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("Возникла ошибка при изменение настройки!\n" + e.getMessage());
-				alert.showAndWait();
+				new AlertError("Не удалость изменить настройки!", e.getMessage());
 			}
 		});
 		addNode(button);

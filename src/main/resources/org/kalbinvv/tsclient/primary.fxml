@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -22,8 +22,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Помощь">
           <items>
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
+            <MenuItem mnemonicParsing="false" onAction="#onInfoButton" text="О программе" />
           </items>
         </Menu>
       </menus>
@@ -39,6 +38,7 @@
                   <Button fx:id="usersButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onUsersButton" text="Пользователи" />
                   <Button fx:id="logsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLogsButton" text="Журнал действий" />
                   <Button fx:id="testsResultsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onTestsResultsButton" text="Результаты" />
+                  <Button fx:id="testsEditorButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onTestsEditorButton" text="Редактор тестов" />
               </items>
             </ToolBar>
             <VBox fx:id="mainBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="326.0" prefWidth="638.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

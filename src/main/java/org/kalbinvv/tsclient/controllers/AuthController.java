@@ -2,11 +2,13 @@ package org.kalbinvv.tsclient.controllers;
 
 import java.io.IOException;
 
+
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.kalbinvv.tsclient.AlertError;
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.ServerAddress;
 import org.kalbinvv.tsclient.TsClient;
@@ -20,8 +22,6 @@ import org.kalbinvv.tscore.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 
 public class AuthController implements Initializable{
@@ -69,18 +69,12 @@ public class AuthController implements Initializable{
 				TsClient.setResizable(true);
 				TsClient.setRoot("primary.fxml", new PrimaryController());
 			}else {
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setContentText((String)response.getObject());
-				alert.showAndWait();
+				new AlertError("Не удалость авторизироваться!", (String) response.getObject());
 			}
 		} catch (NumberFormatException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText("Неправильный формат данных!\n" + e.getMessage());
-			alert.showAndWait();
+			new AlertError("Неправильный формат входных данных!", e.getMessage());
 		} catch(IOException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText("Не удалось подключиться!\n" + e.getMessage());
-			alert.showAndWait();
+			new AlertError("Не удалось подключиться!", e.getMessage());
 		}
 	}
 
