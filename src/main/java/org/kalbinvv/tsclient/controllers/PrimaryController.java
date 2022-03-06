@@ -110,7 +110,7 @@ public class PrimaryController implements Initializable{
 	}
 	
 	public void onTestsEditorButton(ActionEvent event) {
-		//
+		TsClient.setRoot("editor.fxml", new TestsEditorController());
 	}
 	
 	private void sendUserExitRequest() {
