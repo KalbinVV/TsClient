@@ -117,12 +117,9 @@ public class TestController implements Initializable{
 				questionsBox.getChildren().add(checkBox);
 			}
 		}else if(question.getType() == QuestionType.TextFields) {
-			for(String variant : question.getVariants()) {
-				TextField textField = new TextField();
-				textField.setPromptText(variant);
-				textField.setMaxWidth(Double.MAX_VALUE);
-				questionsBox.getChildren().add(textField);
-			}
+			TextField textField = new TextField();
+			textField.setMaxWidth(Double.MAX_VALUE);
+			questionsBox.getChildren().add(textField);
 		}
 	}
 

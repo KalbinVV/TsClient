@@ -23,13 +23,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
-public class QuestionCreateFormController implements Initializable {
+public class QuestionCheckBoxCreateFormController implements Initializable {
 
 	private final TestsEditorController testsEditorController;
 	private List<String> variants;
 	private List<String> answers;
-	private QuestionType questionType;
 	private String defaultTestTitle;
 	
 	@FXML
@@ -38,24 +38,23 @@ public class QuestionCreateFormController implements Initializable {
 	@FXML
 	private VBox variantsBox;
 	
-	QuestionCreateFormController(TestsEditorController testsEditorController, 
-			QuestionType questionType){
+	@FXML
+	private Text questionTypeText;
+	
+	@FXML
+	private VBox buttonsBox;
+	
+	QuestionCheckBoxCreateFormController(TestsEditorController testsEditorController){
 		this.testsEditorController = testsEditorController;
-		this.questionType = questionType;
 		variants = new ArrayList<String>();
 		answers = new ArrayList<String>();
-		if(questionType == QuestionType.CheckBoxes) {
-			defaultTestTitle = "Вопрос с выбором";
-		}else {
-			defaultTestTitle = "Вопрос с вводом ответа";
-		}
+		defaultTestTitle = "Заголовок";
 	}
 	
-	QuestionCreateFormController(TestsEditorController testsEditorController, 
-			QuestionType questionType, List<String> variants, List<String> answers,
+	QuestionCheckBoxCreateFormController(TestsEditorController testsEditorController, 
+			List<String> variants, List<String> answers,
 			String questionTitle){
 		this.testsEditorController = testsEditorController;
-		this.questionType = questionType;
 		this.variants = variants;
 		this.answers = answers;
 		defaultTestTitle = questionTitle;
@@ -64,10 +63,21 @@ public class QuestionCreateFormController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		questionTitleTextArea.setText(defaultTestTitle);
+		questionTypeText.setText("Вопрос с выбором ответа");
 		drawVariants();
+		Button addVariantButton = new Button("Добавить вариант ответа");
+		addVariantButton.setMaxWidth(Double.MAX_VALUE);
+		addVariantButton.setOnAction((ActionEvent event) -> onAddVariantButton(event));
+		Button saveQuestionButton = new Button("Сохранить вопрос");
+		saveQuestionButton.setMaxWidth(Double.MAX_VALUE);
+		saveQuestionButton.setOnAction((ActionEvent event) -> onSaveQuestionButton(event));
+		Button cancelCreateButton = new Button("Отмена");
+		cancelCreateButton.setMaxWidth(Double.MAX_VALUE);
+		cancelCreateButton.setOnAction((ActionEvent event) -> onCancelCreateButton(event));
+		buttonsBox.getChildren().addAll(addVariantButton, saveQuestionButton, cancelCreateButton);
 	}
 	
-	public void onAddVariantButton(ActionEvent event) {
+	private void onAddVariantButton(ActionEvent event) {
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setHeaderText("Введите ответ: ");
 		dialog.setTitle("Создать новый ответ!");
@@ -93,7 +103,7 @@ public class QuestionCreateFormController implements Initializable {
 		drawVariants();
 	}
 	
-	public void onSaveQuestionButton(ActionEvent event) {
+	private void onSaveQuestionButton(ActionEvent event) {
 		String questionTitle = questionTitleTextArea.getText();
 		if(questionTitle.isEmpty()) {
 			new AlertError("Не удалось создать вопрос!", "Заголовок вопроса не может быть пустым!");
@@ -102,7 +112,7 @@ public class QuestionCreateFormController implements Initializable {
 				new AlertError("Не удалось создать вопрос!", 
 						"Вопрос должен состоять минимум из одного правильного варианта!");
 			}else {
-				Question question = new SimpleQuestion(questionTitle, questionType, variants);
+				Question question = new SimpleQuestion(questionTitle, QuestionType.CheckBoxes, variants);
 				testsEditorController.addQuestion(question, answers);
 				TsClient.setRoot("editor.fxml", testsEditorController);
 				testsEditorController.drawQuestions();
@@ -112,6 +122,7 @@ public class QuestionCreateFormController implements Initializable {
 	
 	public void onCancelCreateButton(ActionEvent event) {
 		TsClient.setRoot("editor.fxml", testsEditorController);
+		testsEditorController.drawQuestions();
 	}
 	
 	private void drawVariants() {
