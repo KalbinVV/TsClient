@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
@@ -25,8 +25,9 @@
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAddNewCheckBoxQuestionButton" text="Создать новый вопрос (С выбором)" />
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAddNewTextFieldQuestionButton" text="Создать новый вопрос (С вводом ответа)" />
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSaveToFileButton" text="Сохранить тест как файл" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSendToServerButton" text="Отправить тест на сервер" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onReturnToPrimaryButton" text="Вернуться в меню" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSendToServerButton" text="Сохранить тест на сервере" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLoadTestButton" text="Открыть файл теста" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onReturnToPrimaryButton" text="Удалить тест" />
                </children>
             </VBox>
          </children>
