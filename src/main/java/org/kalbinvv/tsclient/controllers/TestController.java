@@ -50,26 +50,9 @@ public class TestController implements Initializable{
 	}
 
 	public void onNextQuestionButton(ActionEvent event) {
+		saveUserSelect();
 		Test test = TsClient.getConfig().getUser().getTest();
 		int currentQuestion = test.getCurrentQuestion();
-		List<String> answers = new ArrayList<String>();
-		Question question = test.getQuestions().get(currentQuestion);
-		if(question.getType() == QuestionType.CheckBoxes) {
-			for(Node node : questionsBox.getChildren()) {
-				CheckBox checkBox = (CheckBox) node;
-				if(checkBox.isSelected()) {
-					answers.add(checkBox.getText());
-				}
-			}
-		}else if(question.getType() == QuestionType.TextFields) {
-			for(Node node : questionsBox.getChildren()) {
-				TextField textField = (TextField) node;
-				if(!textField.getText().isEmpty()) {
-					answers.add(textField.getText());
-				}
-			}
-		}
-		question.setUserSelect(answers);
 		if(currentQuestion == test.getQuestions().size() - 1) {
 			Config config = TsClient.getConfig();
 			try {
@@ -86,14 +69,17 @@ public class TestController implements Initializable{
 		}else {
 			test.setCurrentQuestion(currentQuestion + 1);
 			drawInterface();
+			displaySavedVariants();
 		}
 	}
 
 	public void onPrevQuestionButton(ActionEvent event	) {
+		saveUserSelect();
 		Test test = TsClient.getConfig().getUser().getTest();
-		int currentQuestion = test.getCurrentQuestion();
-		test.setCurrentQuestion(currentQuestion - 1);
+		int currentQuestion = test.getCurrentQuestion() - 1;
+		test.setCurrentQuestion(currentQuestion);
 		drawInterface();
+		displaySavedVariants();
 	}
 
 	private void drawInterface() {
@@ -121,6 +107,47 @@ public class TestController implements Initializable{
 			textField.setMaxWidth(Double.MAX_VALUE);
 			questionsBox.getChildren().add(textField);
 		}
+	}
+	
+	private void displaySavedVariants() {
+		Test test = TsClient.getConfig().getUser().getTest();
+		int currentQuestion = test.getCurrentQuestion();
+		Question question = test.getQuestions().get(currentQuestion);
+		List<String> userSelect = question.getUserSelect();
+		for(Node node : questionsBox.getChildren()) {
+			if(question.getType() == QuestionType.CheckBoxes) {
+				CheckBox checkBox = (CheckBox) node;
+				if(userSelect.contains(checkBox.getText())) {
+					checkBox.setSelected(true);
+				}
+			}else {
+				TextField textField = (TextField) node;
+				textField.setText(userSelect.get(0));
+			}
+		}
+	}
+	
+	private void saveUserSelect() {
+		Test test = TsClient.getConfig().getUser().getTest();
+		int currentQuestion = test.getCurrentQuestion();
+		List<String> answers = new ArrayList<String>();
+		Question question = test.getQuestions().get(currentQuestion);
+		if(question.getType() == QuestionType.CheckBoxes) {
+			for(Node node : questionsBox.getChildren()) {
+				CheckBox checkBox = (CheckBox) node;
+				if(checkBox.isSelected()) {
+					answers.add(checkBox.getText());
+				}
+			}
+		}else if(question.getType() == QuestionType.TextFields) {
+			for(Node node : questionsBox.getChildren()) {
+				TextField textField = (TextField) node;
+				if(!textField.getText().isEmpty()) {
+					answers.add(textField.getText());
+				}
+			}
+		}
+		question.setUserSelect(answers);
 	}
 
 }
