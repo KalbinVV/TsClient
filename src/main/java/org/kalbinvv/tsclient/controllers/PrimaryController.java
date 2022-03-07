@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.kalbinvv.tsclient.AlertInformation;
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
+import org.kalbinvv.tsclient.alert.AlertInformation;
 import org.kalbinvv.tsclient.layout.*;
 import org.kalbinvv.tscore.net.Connection;
 import org.kalbinvv.tscore.net.Request;

@@ -2,11 +2,10 @@ package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
 
-
-import org.kalbinvv.tsclient.AlertError;
-import org.kalbinvv.tsclient.AlertInformation;
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
+import org.kalbinvv.tsclient.alert.AlertError;
+import org.kalbinvv.tsclient.alert.AlertInformation;
 import org.kalbinvv.tscore.net.Connection;
 import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;

@@ -1,5 +1,6 @@
 package org.kalbinvv.tsclient.controllers;
 
+import java.io.File;
 import java.io.IOException;
 
 import java.net.URL;
@@ -7,10 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import org.kalbinvv.tsclient.AlertError;
-import org.kalbinvv.tsclient.AlertInformation;
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
+import org.kalbinvv.tsclient.alert.AlertError;
+import org.kalbinvv.tsclient.alert.AlertInformation;
+import org.kalbinvv.tsclient.file.ObjectFileWorker;
 import org.kalbinvv.tscore.net.Connection;
 import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
@@ -29,30 +31,45 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 
 public class TestsEditorController implements Initializable{
 
 	@FXML
 	private VBox questionsBox;
-	
+
 	@FXML
 	private TextArea testTitleTextArea;
 
 	@FXML
 	private TextArea testDescriptionTextArea;
-	
+
 	private final List<Question> questions;
 	private final List<List<String>> answers;
+	private String testTitle;
+	private String testDescription;
 
 
 	public TestsEditorController(){
 		questions = new ArrayList<Question>();
 		answers = new ArrayList<List<String>>();
+		testTitle = "";
+		testDescription = "";
+	}
+
+	public TestsEditorController(TestData testData) {
+		Test test = testData.getTest();
+		questions = test.getQuestions();
+		answers = testData.getAnswers();
+		testTitle = test.getName();
+		testDescription = test.getDescription();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//TODO
+		testTitleTextArea.setText(testTitle);
+		testDescriptionTextArea.setText(testDescription);
+		drawQuestions();
 	}
 
 	public void onAddNewCheckBoxQuestionButton(ActionEvent event) {
@@ -64,7 +81,17 @@ public class TestsEditorController implements Initializable{
 	}
 
 	public void onSaveToFileButton(ActionEvent event) {
-		//TODO
+		Test test = new SimpleTest(testTitle, testDescription, questions);
+		TestData testData = new TestData(test, answers);
+		FileChooser fileChooser = new FileChooser();
+		File selectedFile = fileChooser.showSaveDialog(TsClient.getStage());
+		if(selectedFile == null) {
+			new AlertError("Не удалось скачать тест!", "Не указан путь");
+		}else {
+			ObjectFileWorker objectFileWorker = new ObjectFileWorker();
+			objectFileWorker.save(testData, selectedFile);
+			new AlertInformation("Файл успешно сохранен!");
+		}
 	}
 
 	public void onSendToServerButton(ActionEvent event) {
@@ -94,6 +121,24 @@ public class TestsEditorController implements Initializable{
 			}
 		} catch (IOException e) {
 			new AlertError("Не удаётся отправить тест на сервер!", e.getMessage());
+		}
+	}
+
+	public void onLoadTestButton(ActionEvent event) {
+		ObjectFileWorker objectFileWorker = new ObjectFileWorker();
+		FileChooser fileChooser = new FileChooser();
+		File selectedFile = fileChooser.showOpenDialog(TsClient.getStage());
+		if(selectedFile == null) {
+			new AlertError("Не удалось открыть файл!", "Путь не был выбран!");
+		} else {
+			try {
+				TestData testData = objectFileWorker.loadTestData(selectedFile);
+				TsClient.setRoot("editor.fxml", new TestsEditorController(testData));
+			} catch (IOException e) {
+				new AlertError("Не удалось открыть файл!", e.getMessage());
+			} catch (ClassNotFoundException e) {
+				new AlertError("Не удалось открыть файл!", "Неправильный формат файла!");
+			}
 		}
 	}
 

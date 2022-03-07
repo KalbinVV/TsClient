@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import org.kalbinvv.tsclient.AlertError;
 import org.kalbinvv.tsclient.TsClient;
+import org.kalbinvv.tsclient.alert.AlertError;
 import org.kalbinvv.tscore.test.Question;
 import org.kalbinvv.tscore.test.QuestionType;
 import org.kalbinvv.tscore.test.SimpleQuestion;
@@ -65,7 +65,7 @@ public class QuestionTextFieldCreateFormController implements Initializable {
 		Button addVariantButton = new Button("Добавить ответ");
 		addVariantButton.setMaxWidth(Double.MAX_VALUE);
 		addVariantButton.setOnAction((ActionEvent event) -> onAddVariantButton(event));
-		Button saveQuestionButton = new Button("Сохранить вопрос");
+		Button saveQuestionButton = new Button("Удалить вопрос");
 		saveQuestionButton.setMaxWidth(Double.MAX_VALUE);
 		saveQuestionButton.setOnAction((ActionEvent event) -> onSaveQuestionButton(event));
 		Button cancelCreateButton = new Button("Отмена");

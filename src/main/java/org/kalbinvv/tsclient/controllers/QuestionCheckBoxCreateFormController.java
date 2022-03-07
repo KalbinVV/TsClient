@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import org.kalbinvv.tsclient.AlertError;
 import org.kalbinvv.tsclient.TsClient;
+import org.kalbinvv.tsclient.alert.AlertError;
 import org.kalbinvv.tscore.test.Question;
 import org.kalbinvv.tscore.test.QuestionType;
 import org.kalbinvv.tscore.test.SimpleQuestion;
@@ -71,7 +71,7 @@ public class QuestionCheckBoxCreateFormController implements Initializable {
 		Button saveQuestionButton = new Button("Сохранить вопрос");
 		saveQuestionButton.setMaxWidth(Double.MAX_VALUE);
 		saveQuestionButton.setOnAction((ActionEvent event) -> onSaveQuestionButton(event));
-		Button cancelCreateButton = new Button("Отмена");
+		Button cancelCreateButton = new Button("Удалить вопрос");
 		cancelCreateButton.setMaxWidth(Double.MAX_VALUE);
 		cancelCreateButton.setOnAction((ActionEvent event) -> onCancelCreateButton(event));
 		buttonsBox.getChildren().addAll(addVariantButton, saveQuestionButton, cancelCreateButton);

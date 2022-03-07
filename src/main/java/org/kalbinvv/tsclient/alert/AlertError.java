@@ -1,4 +1,4 @@
-package org.kalbinvv.tsclient;
+package org.kalbinvv.tsclient.alert;
 
 import javafx.scene.control.Alert;
 
