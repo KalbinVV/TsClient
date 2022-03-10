@@ -8,9 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.kalbinvv.tsclient.controllers.AuthController;
@@ -21,11 +19,16 @@ public class TsClient extends Application {
 	private static Stage stage;
 	private static Config config;
 	private static URL styleURL;
+	private static Loader loader;
 
 	@Override
 	public void start(Stage stage) throws IOException {
+		loader = new Loader("resources");
+		if(!loader.isResourcesFolderExist()) {
+			//TODO installer
+		}
 		TsClient.stage = stage;
-		TsClient.styleURL = loadResource("resources" + File.separator + "style.css");
+		TsClient.styleURL = loader.getFileURL("style.css");
 		setResizable(false);
 		setRoot("auth.fxml", new AuthController());
 	}
@@ -35,12 +38,12 @@ public class TsClient extends Application {
 	}
 
 	public static void setRoot(String path, Initializable controller) {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(loadResource("resources" + File.separator + path));
-		loader.setController(controller);
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		fxmlLoader.setLocation(loader.getFileURL(path));
+		fxmlLoader.setController(controller);
 		Parent root = null;
 		try {
-			root = loader.load();
+			root = fxmlLoader.load();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -48,17 +51,6 @@ public class TsClient extends Application {
 		scene.getStylesheets().add(TsClient.getStyleURL().toExternalForm());
 		stage.setScene(scene);
 		stage.show();
-	}
-
-	private static URL loadResource(String path) {
-		URL url = null;
-		File file = new File(path);
-		try {
-			url = file.toURI().toURL();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		return url;
 	}
 
 	public static void main(String[] args) {
