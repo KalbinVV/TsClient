@@ -3,19 +3,14 @@
     -fx-font-size: 14px;
 }
 
+AnchorPane {
+}
+
 Button {
-	-fx-background-color: black;
-    -fx-text-fill: white;
+	-fx-background-color: #ffad4d;
     -fx-font-size: 14px;
 }
 
-.auth Text {
-    -fx-font-size: 14px;
-}
-
-.auth Button {
-	-fx-background-color: black;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
+Text {
+    -fx-fill: black;
 }
