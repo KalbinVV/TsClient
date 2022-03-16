@@ -64,10 +64,13 @@ public class TestsLayout extends Layout{
 				});
 				Button downloadTestButton = new Button("Скачать тест");
 				Button editTestButton = new Button("Редактировать тест");
+				Button removeTestButton = new Button("Удалить тест");
 				downloadTestButton.setOnAction((ActionEvent event) -> 
 					onDownloadTestButton(test));
 				editTestButton.setOnAction((ActionEvent event) -> 
 					onEditTestButton(test));
+				removeTestButton.setOnAction((ActionEvent event) ->
+					onRemoveTestButton(test));
 				if(TsClient.getConfig().getUser().getType() != UserType.Admin) {
 					downloadTestButton.setVisible(false);
 					editTestButton.setVisible(false);
@@ -75,7 +78,7 @@ public class TestsLayout extends Layout{
 				HBox hBox = new HBox();
 				hBox.setSpacing(5);
 				hBox.getChildren().addAll(startTestButton, infoTestButton,
-						downloadTestButton, editTestButton);
+						downloadTestButton, editTestButton, removeTestButton);
 				addNode(hBox);
 			}
 		} catch (IOException e) {
@@ -84,7 +87,6 @@ public class TestsLayout extends Layout{
 	}
 
 	private void onDownloadTestButton(Test test) {
-
 		Config config = TsClient.getConfig();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
@@ -122,6 +124,21 @@ public class TestsLayout extends Layout{
 		} catch (IOException e) {
 			new AlertError("Не удалось открыть редактор тестов", e.getMessage());
 		}
+	}
+	
+	private void onRemoveTestButton(Test test) {
+		Config config = TsClient.getConfig();
+		try {
+			Connection connection = new Connection(config.getServerAddress().toSocket());
+			Response response = connection.sendRequestAndGetResponse(new Request(
+					RequestType.RemoveTest, test, config.getUser()));
+			if(response.getType() != ResponseType.Successful) {
+				throw new IOException((String) response.getObject());
+			}
+		} catch (IOException e) {
+			new AlertError("Не удалось удалить тест!", e.getMessage());
+		}
+		draw();
 	}
 	
 }

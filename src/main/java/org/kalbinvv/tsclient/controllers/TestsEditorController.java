@@ -67,12 +67,13 @@ public class TestsEditorController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		testTitleTextArea.setText(testTitle);
-		testDescriptionTextArea.setText(testDescription);
+		drawDetails();
 		drawQuestions();
 	}
 
 	public void onAddNewCheckBoxQuestionButton(ActionEvent event) {
+		testTitle = testTitleTextArea.getText();
+		testDescription = testDescriptionTextArea.getText();
 		TsClient.setRoot("questionCreateForm.fxml", new QuestionCheckBoxCreateFormController(this));
 	}
 
@@ -161,6 +162,11 @@ public class TestsEditorController implements Initializable{
 		}
 		questions.remove(index);
 		answers.remove(index);
+	}
+	
+	public void drawDetails() {
+		testTitleTextArea.setText(testTitle);
+		testDescriptionTextArea.setText(testDescription);
 	}
 
 	public void drawQuestions() {

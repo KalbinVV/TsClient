@@ -116,6 +116,7 @@ public class QuestionCheckBoxCreateFormController implements Initializable {
 				testsEditorController.addQuestion(question, answers);
 				TsClient.setRoot("editor.fxml", testsEditorController);
 				testsEditorController.drawQuestions();
+				testsEditorController.drawDetails();
 			}
 		}
 	}

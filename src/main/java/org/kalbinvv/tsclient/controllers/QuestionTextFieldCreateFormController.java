@@ -106,6 +106,7 @@ public class QuestionTextFieldCreateFormController implements Initializable {
 	public void onCancelCreateButton(ActionEvent event) {
 		TsClient.setRoot("editor.fxml", testsEditorController);
 		testsEditorController.drawQuestions();
+		testsEditorController.drawDetails();
 	}
 	
 	private void drawVariants() {
