@@ -78,6 +78,8 @@ public class TestsEditorController implements Initializable{
 	}
 
 	public void onAddNewTextFieldQuestionButton(ActionEvent event) {
+		testTitle = testTitleTextArea.getText();
+		testDescription = testDescriptionTextArea.getText();
 		TsClient.setRoot("questionCreateForm.fxml", new QuestionTextFieldCreateFormController(this));
 	}
 
@@ -99,8 +101,8 @@ public class TestsEditorController implements Initializable{
 		Config config = TsClient.getConfig();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
-			String testTitle = testTitleTextArea.getText();
-			String testDescription = testDescriptionTextArea.getText();
+			testTitle = testTitleTextArea.getText();
+			testDescription = testDescriptionTextArea.getText();
 			if(testTitle.isEmpty()) {
 				throw new IOException("Название теста не может быть пустым!");
 			}

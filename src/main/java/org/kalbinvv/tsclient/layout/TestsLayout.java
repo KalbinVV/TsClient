@@ -19,6 +19,7 @@ import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.test.Test;
 import org.kalbinvv.tscore.test.TestData;
+import org.kalbinvv.tscore.user.User;
 import org.kalbinvv.tscore.user.UserType;
 
 import javafx.event.ActionEvent;
@@ -42,6 +43,7 @@ public class TestsLayout extends Layout{
 		Text headerText = new Text("Тесты: ");
 		addNode(headerText);
 		Config config = TsClient.getConfig();
+		User user = config.getUser();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
 			@SuppressWarnings("unchecked")
@@ -62,23 +64,27 @@ public class TestsLayout extends Layout{
 					alert.setContentText(test.getDescription());
 					alert.showAndWait();
 				});
-				Button downloadTestButton = new Button("Скачать тест");
-				Button editTestButton = new Button("Редактировать тест");
-				Button removeTestButton = new Button("Удалить тест");
-				downloadTestButton.setOnAction((ActionEvent event) -> 
+				HBox hBox  = new HBox();
+				if(user.getType() == UserType.Admin) {
+					Button downloadTestButton = new Button("Скачать тест");
+					Button editTestButton = new Button("Редактировать тест");
+					Button removeTestButton = new Button("Удалить тест");
+					downloadTestButton.setOnAction((ActionEvent event) -> 
 					onDownloadTestButton(test));
-				editTestButton.setOnAction((ActionEvent event) -> 
+					editTestButton.setOnAction((ActionEvent event) -> 
 					onEditTestButton(test));
-				removeTestButton.setOnAction((ActionEvent event) ->
+					removeTestButton.setOnAction((ActionEvent event) ->
 					onRemoveTestButton(test));
-				if(TsClient.getConfig().getUser().getType() != UserType.Admin) {
-					downloadTestButton.setVisible(false);
-					editTestButton.setVisible(false);
+					if(TsClient.getConfig().getUser().getType() != UserType.Admin) {
+						downloadTestButton.setVisible(false);
+						editTestButton.setVisible(false);
+					}
+					hBox.setSpacing(5);
+					hBox.getChildren().addAll(startTestButton, infoTestButton,
+							downloadTestButton, editTestButton, removeTestButton);
+				}else {
+					hBox.getChildren().addAll(startTestButton, infoTestButton);
 				}
-				HBox hBox = new HBox();
-				hBox.setSpacing(5);
-				hBox.getChildren().addAll(startTestButton, infoTestButton,
-						downloadTestButton, editTestButton, removeTestButton);
 				addNode(hBox);
 			}
 		} catch (IOException e) {
@@ -114,18 +120,21 @@ public class TestsLayout extends Layout{
 		Config config = TsClient.getConfig();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
+			User user = config.getUser();
 			Response response = connection.sendRequestAndGetResponse(
-					new Request(RequestType.GetTestData, test, config.getUser()));
+					new Request(RequestType.GetTestData, test, user));
 			if(response.getType() == ResponseType.Unsuccessful) {
 				throw new IOException((String) response.getObject());
 			}
 			TestData testData = (TestData) response.getObject();
 			TsClient.setRoot("editor.fxml", new TestsEditorController(testData));
+			connection.reconnect();
+			connection.sendRequest(new Request(RequestType.RemoveTest, test, user));
 		} catch (IOException e) {
 			new AlertError("Не удалось открыть редактор тестов", e.getMessage());
 		}
 	}
-	
+
 	private void onRemoveTestButton(Test test) {
 		Config config = TsClient.getConfig();
 		try {
@@ -140,5 +149,5 @@ public class TestsLayout extends Layout{
 		}
 		draw();
 	}
-	
+
 }

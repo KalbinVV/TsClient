@@ -11,6 +11,7 @@ import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
+import org.kalbinvv.tscore.security.Utils;
 import org.kalbinvv.tscore.user.UserEntry;
 
 import javafx.event.ActionEvent;
@@ -57,7 +58,8 @@ public class AdminLayout extends Layout{
 					throw new IOException("Пароль пользователя не может быть пустым!");
 				}
 				Connection connection = new Connection(config.getServerAddress().toSocket());
-				UserEntry userEntry = new UserEntry(loginField.getText(), passField.getText());
+				UserEntry userEntry = new UserEntry(loginField.getText(), 
+						Utils.convertToSHA256(passField.getText()));
 				Response response = connection.sendRequestAndGetResponse(
 						new Request(RequestType.AddUser, userEntry, 
 								config.getUser()));
@@ -80,7 +82,8 @@ public class AdminLayout extends Layout{
 					throw new IOException("Пароль пользователя не может быть пустым!");
 				}
 				Connection connection = new Connection(config.getServerAddress().toSocket());
-				UserEntry userEntry = new UserEntry(loginField.getText(), passField.getText());
+				UserEntry userEntry = new UserEntry(loginField.getText(), 
+						Utils.convertToSHA256(passField.getText()));
 				Response response = connection.sendRequestAndGetResponse(
 						new Request(RequestType.AddAdminUser, userEntry, 
 								config.getUser()));
