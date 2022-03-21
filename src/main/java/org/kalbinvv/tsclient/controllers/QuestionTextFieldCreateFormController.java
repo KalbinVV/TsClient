@@ -65,10 +65,10 @@ public class QuestionTextFieldCreateFormController implements Initializable {
 		Button addVariantButton = new Button("Добавить ответ");
 		addVariantButton.setMaxWidth(Double.MAX_VALUE);
 		addVariantButton.setOnAction((ActionEvent event) -> onAddVariantButton(event));
-		Button saveQuestionButton = new Button("Удалить вопрос");
+		Button saveQuestionButton = new Button("Сохранить вопрос");
 		saveQuestionButton.setMaxWidth(Double.MAX_VALUE);
 		saveQuestionButton.setOnAction((ActionEvent event) -> onSaveQuestionButton(event));
-		Button cancelCreateButton = new Button("Отмена");
+		Button cancelCreateButton = new Button("Удалить вопрос");
 		cancelCreateButton.setMaxWidth(Double.MAX_VALUE);
 		cancelCreateButton.setOnAction((ActionEvent event) -> onCancelCreateButton(event));
 		buttonsBox.getChildren().addAll(addVariantButton, saveQuestionButton, cancelCreateButton);
