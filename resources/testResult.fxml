@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="testResult" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <PieChart fx:id="chart" title="Результат" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="300.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="resultTestHeader" text="Результат теста:" />
-                  <Text fx:id="testResult" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="resultTestCounter" text="0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="resultTestHeader" text="Финальный процент:" />
-                  <Text fx:id="testResultPercent" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="resultTestCounter" text="0" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onReturnToPrimaryButton" text="Вернуться в главное меню" />
+                  <Text fx:id="resultPercent" strokeType="OUTSIDE" strokeWidth="0.0" text="Финальный процент:">
+                     <font>
+                        <Font name="System Bold Italic" size="20.0" />
+                     </font>
+                  </Text>
                </children>
             </VBox>
          </children>
     </AnchorPane>
+      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onReturnToPrimaryButton" prefHeight="88.0" prefWidth="640.0" text="Вернуться в главное меню" />
   </children>
 </VBox>

@@ -11,6 +11,23 @@ Button {
     -fx-font-size: 14px;
 }
 
+Button:hover{
+    -fx-background-color: blue;
+    -fx-text-fill: white;
+}
+
+CheckBox{
+    -fx-font-size: 14px;
+}
+
+CheckBox:hover {
+    -fx-background-color: aqua
+}
+
+CheckBox:selected{
+    -fx-background-color: #ffad4d;
+}
+
 Text {
     -fx-fill: black;
 }

@@ -9,30 +9,38 @@ import org.kalbinvv.tscore.test.TestResult;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.PieChart;
 import javafx.scene.text.Text;
 
 public class TestResultController implements Initializable{
 
 	private TestResult testResultObject;
-	
+
 	@FXML
-	private Text testResult;
-	
+	private Text resultPercent;
+
 	@FXML
-	private Text testResultPercent;
-	
+	private PieChart chart;
+
 	public TestResultController(TestResult testResultObject) {
 		this.testResultObject = testResultObject;
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		testResult.setText(testResultObject.getAmountOfCorrectAnswers() + "/"
-				+ testResultObject.getAmountOfAnswers());
-		testResultPercent.setText(Math.floor(Double.valueOf(testResultObject.getAmountOfCorrectAnswers()) 
+		PieChart.Data correctData = new PieChart.Data("Правильные ответы", 
+				testResultObject.getAmountOfCorrectAnswers());
+		int notCorrect = testResultObject.getAmountOfAnswers() - testResultObject.getAmountOfCorrectAnswers();
+		chart.getData().add(correctData);
+		if(notCorrect > 0) {
+			PieChart.Data notCorrectData = new PieChart.Data("Неправильные ответы", 
+					testResultObject.getAmountOfAnswers() - testResultObject.getAmountOfCorrectAnswers());
+			chart.getData().add(notCorrectData);
+		}
+		resultPercent.setText("Финальный результат: " + Math.floor(Double.valueOf(testResultObject.getAmountOfCorrectAnswers()) 
 				/ testResultObject.getAmountOfAnswers() * 100) + "%");
 	}
-	
+
 	public void onReturnToPrimaryButton(ActionEvent event) {
 		TsClient.setRoot("primary.fxml", new PrimaryController());
 	}
