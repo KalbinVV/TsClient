@@ -1,7 +1,8 @@
 package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
@@ -32,7 +33,7 @@ public class UsersLayout extends Layout{
 							null, config.getUser()));
 			if(response.getType() == ResponseType.Successful) {
 				@SuppressWarnings("unchecked")
-				List<User> onlineUsers = (List<User>) response.getObject();
+				Set<User> onlineUsers = (HashSet<User>) response.getObject();
 				for(User user : onlineUsers) {
 					Text userText = new Text(user.getName() + " " + user.getAddress().toString());
 					addNode(userText);
