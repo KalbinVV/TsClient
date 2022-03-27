@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.kalbinvv.tsclient.Config;
@@ -18,6 +20,7 @@ import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
+import org.kalbinvv.tscore.test.Answer;
 import org.kalbinvv.tscore.test.Question;
 import org.kalbinvv.tscore.test.QuestionType;
 import org.kalbinvv.tscore.test.SimpleTest;
@@ -45,14 +48,14 @@ public class TestsEditorController implements Initializable{
 	private TextArea testDescriptionTextArea;
 
 	private final List<Question> questions;
-	private final List<List<String>> answers;
+	private final Map<String, Answer> answers;
 	private String testTitle;
 	private String testDescription;
 
 
 	public TestsEditorController(){
 		questions = new ArrayList<Question>();
-		answers = new ArrayList<List<String>>();
+		answers = new HashMap<String, Answer>();
 		testTitle = "";
 		testDescription = "";
 	}
@@ -84,6 +87,8 @@ public class TestsEditorController implements Initializable{
 	}
 
 	public void onSaveToFileButton(ActionEvent event) {
+		testTitle = testTitleTextArea.getText();
+		testDescription = testDescriptionTextArea.getText();
 		Test test = new SimpleTest(testTitle, testDescription, questions);
 		TestData testData = new TestData(test, answers);
 		FileChooser fileChooser = new FileChooser();
@@ -149,9 +154,9 @@ public class TestsEditorController implements Initializable{
 		TsClient.setRoot("primary.fxml", new PrimaryController());
 	}
 
-	public void addQuestion(Question question, List<String> answers) {
+	public void addQuestion(Question question, Answer answer) {
 		questions.add(question);
-		this.answers.add(answers);
+		answers.put(question.getTitle(), answer);
 	}
 
 	public void removeQuestion(String questionTitle) {
@@ -163,9 +168,9 @@ public class TestsEditorController implements Initializable{
 			index++;
 		}
 		questions.remove(index);
-		answers.remove(index);
+		answers.remove(questionTitle);
 	}
-	
+
 	public void drawDetails() {
 		testTitleTextArea.setText(testTitle);
 		testDescriptionTextArea.setText(testDescription);
@@ -173,7 +178,6 @@ public class TestsEditorController implements Initializable{
 
 	public void drawQuestions() {
 		questionsBox.getChildren().clear();
-		int index = 0;
 		for(Question question : questions) {
 			VBox testBox = new VBox();
 			testBox.setSpacing(5);
@@ -186,10 +190,12 @@ public class TestsEditorController implements Initializable{
 			}
 			Text variantsText = new Text("Варианты ответов: ");
 			VBox variantsBox = new VBox();
-			List<String> questionAnswers = answers.get(index);
+			List<String> questionAnswers = answers.get(question.getTitle()).getVariants();
 			for(String variant : question.getVariants()) {
-				if(questionAnswers.contains(variant) && question.getType() != QuestionType.TextFields) {
-					variantsBox.getChildren().add(new Text(variant + " (Это правильный вариант)"));
+				if(questionAnswers.contains(variant) 
+						&& question.getType() != QuestionType.TextFields) {
+					variantsBox.getChildren().add(new Text(variant 
+							+ " (Это правильный вариант)"));
 				}else {
 					variantsBox.getChildren().add(new Text(variant));
 				}
@@ -197,7 +203,7 @@ public class TestsEditorController implements Initializable{
 			Button changeQuestionButton = new Button("Изменить вопрос");
 			if(question.getType() == QuestionType.CheckBoxes) {
 				changeQuestionButton.setOnAction((ActionEvent event) -> {
-					answers.remove(answers);
+					answers.remove(question.getTitle());
 					questions.remove(question);
 					TsClient.setRoot("questionCreateForm.fxml", 
 							new QuestionCheckBoxCreateFormController(
@@ -207,7 +213,7 @@ public class TestsEditorController implements Initializable{
 				});
 			}else {
 				changeQuestionButton.setOnAction((ActionEvent event) -> {
-					answers.remove(answers);
+					answers.remove(question.getTitle());
 					questions.remove(question);
 					TsClient.setRoot("questionCreateForm.fxml", 
 							new QuestionTextFieldCreateFormController(
@@ -219,13 +225,13 @@ public class TestsEditorController implements Initializable{
 			Button deleteQuestionButton = new Button("Удалить вопрос");
 			deleteQuestionButton.setOnAction((ActionEvent event) -> {
 				questions.remove(question);
-				answers.remove(questionAnswers);
+				answers.remove(question.getTitle());
 				drawQuestions();
 			});
-			testBox.getChildren().addAll(questionTitle, questionType, variantsText, variantsBox, 
+			testBox.getChildren().addAll(questionTitle, questionType, variantsText, 
+					variantsBox, 
 					changeQuestionButton, deleteQuestionButton);
 			questionsBox.getChildren().add(testBox);
-			index++;
 		}
 	}
 
