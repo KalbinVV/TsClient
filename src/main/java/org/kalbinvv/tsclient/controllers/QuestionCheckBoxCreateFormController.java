@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.alert.AlertError;
+import org.kalbinvv.tscore.test.Answer;
 import org.kalbinvv.tscore.test.Question;
 import org.kalbinvv.tscore.test.QuestionType;
 import org.kalbinvv.tscore.test.SimpleQuestion;
@@ -75,7 +76,8 @@ public class QuestionCheckBoxCreateFormController implements Initializable {
 		Button cancelCreateButton = new Button("Удалить вопрос");
 		cancelCreateButton.setMaxWidth(Double.MAX_VALUE);
 		cancelCreateButton.setOnAction((ActionEvent event) -> onCancelCreateButton(event));
-		buttonsBox.getChildren().addAll(addVariantButton, saveQuestionButton, cancelCreateButton);
+		buttonsBox.getChildren().addAll(addVariantButton, saveQuestionButton, 
+				cancelCreateButton);
 	}
 	
 	private void onAddVariantButton(ActionEvent event) {
@@ -113,8 +115,10 @@ public class QuestionCheckBoxCreateFormController implements Initializable {
 				new AlertError("Не удалось создать вопрос!", 
 						"Вопрос должен состоять минимум из одного правильного варианта!");
 			}else {
-				Question question = new SimpleQuestion(questionTitle, QuestionType.CheckBoxes, variants);
-				testsEditorController.addQuestion(question, answers);
+				Question question = new SimpleQuestion(questionTitle, 
+						QuestionType.CheckBoxes, variants);
+				Answer answer = new Answer(answers);
+				testsEditorController.addQuestion(question, answer);
 				TsClient.setRoot("editor.fxml", testsEditorController);
 				testsEditorController.drawQuestions();
 				testsEditorController.drawDetails();
@@ -157,7 +161,8 @@ public class QuestionCheckBoxCreateFormController implements Initializable {
 					drawVariants();
 				});
 			}
-			variantsBox.getChildren().addAll(variantLabel, deleteVariantButton, changeCorrectButton);
+			variantsBox.getChildren().addAll(variantLabel, deleteVariantButton, 
+					changeCorrectButton);
 		}
 	}
 	

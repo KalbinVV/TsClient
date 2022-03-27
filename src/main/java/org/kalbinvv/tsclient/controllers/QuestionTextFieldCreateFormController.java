@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.alert.AlertError;
+import org.kalbinvv.tscore.test.Answer;
 import org.kalbinvv.tscore.test.Question;
 import org.kalbinvv.tscore.test.QuestionType;
 import org.kalbinvv.tscore.test.SimpleQuestion;
@@ -97,7 +98,8 @@ public class QuestionTextFieldCreateFormController implements Initializable {
 						"Вопрос должен состоять минимум из одного правильного варианта!");
 			}else {
 				Question question = new SimpleQuestion(questionTitle, QuestionType.TextFields, variants);
-				testsEditorController.addQuestion(question, answers);
+				Answer answer = new Answer(answers);
+				testsEditorController.addQuestion(question, answer);
 				TsClient.setRoot("editor.fxml", testsEditorController);
 				testsEditorController.drawQuestions();
 			}
