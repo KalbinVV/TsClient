@@ -31,6 +31,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -46,11 +47,15 @@ public class TestsEditorController implements Initializable{
 
 	@FXML
 	private TextArea testDescriptionTextArea;
+	
+	@FXML
+	private CheckBox testIsShuffledCheckBox;
 
 	private final List<Question> questions;
 	private final Map<String, Answer> answers;
 	private String testTitle;
 	private String testDescription;
+	private boolean shouldBeShuffled;
 
 
 	public TestsEditorController(){
@@ -66,6 +71,7 @@ public class TestsEditorController implements Initializable{
 		answers = testData.getAnswers();
 		testTitle = test.getName();
 		testDescription = test.getDescription();
+		shouldBeShuffled = test.isShuffled();
 	}
 
 	@Override
@@ -77,19 +83,25 @@ public class TestsEditorController implements Initializable{
 	public void onAddNewCheckBoxQuestionButton(ActionEvent event) {
 		testTitle = testTitleTextArea.getText();
 		testDescription = testDescriptionTextArea.getText();
-		TsClient.setRoot("questionCreateForm.fxml", new QuestionCheckBoxCreateFormController(this));
+		shouldBeShuffled = testIsShuffledCheckBox.isSelected();
+		TsClient.setRoot("questionCreateForm.fxml", 
+				new QuestionCheckBoxCreateFormController(this));
 	}
 
 	public void onAddNewTextFieldQuestionButton(ActionEvent event) {
 		testTitle = testTitleTextArea.getText();
 		testDescription = testDescriptionTextArea.getText();
-		TsClient.setRoot("questionCreateForm.fxml", new QuestionTextFieldCreateFormController(this));
+		shouldBeShuffled = testIsShuffledCheckBox.isSelected();
+		TsClient.setRoot("questionCreateForm.fxml", 
+				new QuestionTextFieldCreateFormController(this));
 	}
 
 	public void onSaveToFileButton(ActionEvent event) {
 		testTitle = testTitleTextArea.getText();
 		testDescription = testDescriptionTextArea.getText();
-		Test test = new SimpleTest(testTitle, testDescription, questions);
+		shouldBeShuffled = testIsShuffledCheckBox.isSelected();
+		Test test = new SimpleTest(testTitle, testDescription, getQuestions(), 
+				shouldBeShuffled);
 		TestData testData = new TestData(test, answers);
 		FileChooser fileChooser = new FileChooser();
 		File selectedFile = fileChooser.showSaveDialog(TsClient.getStage());
@@ -108,16 +120,18 @@ public class TestsEditorController implements Initializable{
 			Connection connection = new Connection(config.getServerAddress().toSocket());
 			testTitle = testTitleTextArea.getText();
 			testDescription = testDescriptionTextArea.getText();
+			shouldBeShuffled = testIsShuffledCheckBox.isSelected();
 			if(testTitle.isEmpty()) {
 				throw new IOException("Название теста не может быть пустым!");
 			}
 			if(testDescription.isEmpty()) {
 				throw new IOException("Описание теста не может быть пустым!");
 			}
-			if(questions.isEmpty()) {
+			if(getQuestions().isEmpty()) {
 				throw new IOException("Тест должен состоять минимум из 1-го вопроса!");
 			}
-			Test test = new SimpleTest(testTitle, testDescription, questions);
+			Test test = new SimpleTest(testTitle, testDescription, getQuestions(), 
+					shouldBeShuffled);
 			TestData testData = new TestData(test, answers);
 			Response response = connection.sendRequestAndGetResponse(new Request(
 					RequestType.AddTest, testData, config.getUser()));
@@ -155,30 +169,31 @@ public class TestsEditorController implements Initializable{
 	}
 
 	public void addQuestion(Question question, Answer answer) {
-		questions.add(question);
+		getQuestions().add(question);
 		answers.put(question.getTitle(), answer);
 	}
 
 	public void removeQuestion(String questionTitle) {
 		int index = 0;
-		for(Question question : questions) {
+		for(Question question : getQuestions()) {
 			if(question.getTitle().equals(questionTitle)) {
 				break;
 			}
 			index++;
 		}
-		questions.remove(index);
+		getQuestions().remove(index);
 		answers.remove(questionTitle);
 	}
 
 	public void drawDetails() {
 		testTitleTextArea.setText(testTitle);
 		testDescriptionTextArea.setText(testDescription);
+		testIsShuffledCheckBox.setSelected(shouldBeShuffled);
 	}
 
 	public void drawQuestions() {
 		questionsBox.getChildren().clear();
-		for(Question question : questions) {
+		for(Question question : getQuestions()) {
 			VBox testBox = new VBox();
 			testBox.setSpacing(5);
 			Text questionTitle = new Text("Вопрос: " + question.getTitle());
@@ -204,7 +219,7 @@ public class TestsEditorController implements Initializable{
 			if(question.getType() == QuestionType.CheckBoxes) {
 				changeQuestionButton.setOnAction((ActionEvent event) -> {
 					answers.remove(question.getTitle());
-					questions.remove(question);
+					getQuestions().remove(question);
 					TsClient.setRoot("questionCreateForm.fxml", 
 							new QuestionCheckBoxCreateFormController(
 									this, 
@@ -214,7 +229,7 @@ public class TestsEditorController implements Initializable{
 			}else {
 				changeQuestionButton.setOnAction((ActionEvent event) -> {
 					answers.remove(question.getTitle());
-					questions.remove(question);
+					getQuestions().remove(question);
 					TsClient.setRoot("questionCreateForm.fxml", 
 							new QuestionTextFieldCreateFormController(
 									this, 
@@ -224,7 +239,7 @@ public class TestsEditorController implements Initializable{
 			}
 			Button deleteQuestionButton = new Button("Удалить вопрос");
 			deleteQuestionButton.setOnAction((ActionEvent event) -> {
-				questions.remove(question);
+				getQuestions().remove(question);
 				answers.remove(question.getTitle());
 				drawQuestions();
 			});
@@ -233,6 +248,10 @@ public class TestsEditorController implements Initializable{
 					changeQuestionButton, deleteQuestionButton);
 			questionsBox.getChildren().add(testBox);
 		}
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
 	}
 
 

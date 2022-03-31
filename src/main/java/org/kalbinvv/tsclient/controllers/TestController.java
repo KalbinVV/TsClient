@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,6 +16,7 @@ import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.test.Question;
 import org.kalbinvv.tscore.test.QuestionType;
+import org.kalbinvv.tscore.test.SimpleTest;
 import org.kalbinvv.tscore.test.Test;
 import org.kalbinvv.tscore.test.TestResult;
 
@@ -41,20 +43,27 @@ public class TestController implements Initializable{
 
 	@FXML
 	private Button finishButton;
-	
+
 	private VBox questionsBox;
+	
+	private Test test;
 
 	public TestController(){
 		questionsBox = new VBox();
 		questionsBox.setSpacing(10);
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		pagination.setPageCount(TsClient.getConfig().getUser().getTest().getQuestions().size());
+		test = new SimpleTest(TsClient.getConfig().getUser().getTest());
+		if(test.isShuffled()) {
+			Collections.shuffle(test.getQuestions());
+		}
+		pagination.setPageCount(TsClient.getConfig().getUser().getTest()
+				.getQuestions().size());
 		pagination.setPageFactory((pageIndex) -> {
 			saveUserSelect();
-			TsClient.getConfig().getUser().getTest().setCurrentQuestion(pageIndex);
+			test.setCurrentQuestion(pageIndex);
 			drawInterface();
 			displaySavedVariants();
 			return questionsBox;
@@ -79,7 +88,6 @@ public class TestController implements Initializable{
 	}
 
 	private void drawInterface() {
-		Test test = TsClient.getConfig().getUser().getTest();
 		int currentQuestion = test.getCurrentQuestion();
 		Question question = test.getQuestions().get(currentQuestion);
 		testTitle.setText(question.getTitle());
@@ -105,7 +113,6 @@ public class TestController implements Initializable{
 	}
 
 	private void displaySavedVariants() {
-		Test test = TsClient.getConfig().getUser().getTest();
 		int currentQuestion = test.getCurrentQuestion();
 		Question question = test.getQuestions().get(currentQuestion);
 		List<String> userSelect = question.getUserSelect();
@@ -123,7 +130,6 @@ public class TestController implements Initializable{
 	}
 
 	private void saveUserSelect() {
-		Test test = TsClient.getConfig().getUser().getTest();
 		int currentQuestion = test.getCurrentQuestion();
 		List<String> answers = new ArrayList<String>();
 		Question question = test.getQuestions().get(currentQuestion);

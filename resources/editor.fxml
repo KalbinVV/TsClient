@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
@@ -22,6 +23,7 @@
                         <VBox fx:id="questionsBox" prefHeight="200.0" prefWidth="636.0" spacing="5.0" />
                      </content>
                   </ScrollPane>
+                  <CheckBox fx:id="testIsShuffledCheckBox" mnemonicParsing="false" text="Неупорядоченные вопросы (Вопросы будут перемешаны)" />
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAddNewCheckBoxQuestionButton" text="Создать новый вопрос (С выбором)" />
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAddNewTextFieldQuestionButton" text="Создать новый вопрос (С вводом ответа)" />
                   <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSaveToFileButton" text="Сохранить тест как файл" />
