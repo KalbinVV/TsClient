@@ -108,13 +108,21 @@ public class QuestionCheckBoxCreateFormController implements Initializable {
 	
 	private void onSaveQuestionButton(ActionEvent event) {
 		String questionTitle = questionTitleTextArea.getText();
+		boolean isCorrect = true;
+		for(Question question : testsEditorController.getQuestions()) {
+			if(questionTitle.equals(question.getTitle())) isCorrect = false;
+		}
 		if(questionTitle.isEmpty()) {
-			new AlertError("Не удалось создать вопрос!", "Заголовок вопроса не может быть пустым!");
+			new AlertError("Не удалось создать вопрос!", 
+					"Заголовок вопроса не может быть пустым!");
 		}else {
 			if(answers.isEmpty()) {
 				new AlertError("Не удалось создать вопрос!", 
 						"Вопрос должен состоять минимум из одного правильного варианта!");
-			}else {
+			}else if(!isCorrect){
+				new AlertError("Не удалось создать вопрос!",
+						"Вопрос с таким заголовком уже существует!");
+			}else{
 				Question question = new SimpleQuestion(questionTitle, 
 						QuestionType.CheckBoxes, variants);
 				Answer answer = new Answer(answers);
