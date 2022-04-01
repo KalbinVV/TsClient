@@ -1,33 +1,27 @@
 .mainbox {
     -fx-font-weight: bold;
     -fx-font-size: 14px;
+    -fx-background-color: #e7e7e7;
 }
 
-AnchorPane {
+Button{
+    -fx-background-color: #f3f3f3;
+    -fx-background-radius: 0;
 }
 
-Button {
-	-fx-background-color: #ffad4d;
-    -fx-font-size: 14px;
+TextField{
+    -fx-background-border: 0;
 }
 
-Button:hover{
-    -fx-background-color: blue;
-    -fx-text-fill: white;
+.leftSide{
+    -fx-background-color: #3F2B63;
+}
+
+.leftSide Button{
+    -fx-background-color: #f3f3f3;
+    -fx-background-radius: 0;
 }
 
 CheckBox{
     -fx-font-size: 14px;
-}
-
-CheckBox:hover {
-    -fx-background-color: aqua
-}
-
-CheckBox:selected{
-    -fx-background-color: #ffad4d;
-}
-
-Text {
-    -fx-fill: black;
 }

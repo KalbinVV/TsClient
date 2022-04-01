@@ -24,6 +24,7 @@ import org.kalbinvv.tscore.user.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class AuthController implements Initializable{
@@ -32,7 +33,7 @@ public class AuthController implements Initializable{
 	private TextField loginField;
 
 	@FXML
-	private TextField passField;
+	private PasswordField passField;
 
 	@FXML
 	private TextField addressField;

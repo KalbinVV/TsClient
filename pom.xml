@@ -13,13 +13,18 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17</version>
+            <version>18</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17</version>
+            <version>18</version>
         </dependency>
+		<dependency>
+    		<groupId>de.jensd</groupId>
+    		<artifactId>fontawesomefx-fontawesome</artifactId>
+    		<version>4.7.0-9.1.2</version>
+		</dependency>
     </dependencies>
     <build>
         <plugins>
