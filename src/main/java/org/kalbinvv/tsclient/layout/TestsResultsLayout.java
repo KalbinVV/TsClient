@@ -14,6 +14,7 @@ import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.test.TestResult;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -38,6 +39,7 @@ public class TestsResultsLayout extends Layout{
 		resultsPane.setMaxWidth(Double.MAX_VALUE);
 		VBox resultsBox = new VBox();
 		resultsBox.setSpacing(20);
+		resultsBox.setPadding(new Insets(10, 10, 10, 10));
 		Config config = TsClient.getConfig();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());

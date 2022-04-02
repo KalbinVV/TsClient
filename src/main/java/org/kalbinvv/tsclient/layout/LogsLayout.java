@@ -13,6 +13,7 @@ import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -36,6 +37,7 @@ public class LogsLayout extends Layout{
 		logsPane.setMaxWidth(Double.MAX_VALUE);
 		logsPane.setMaxHeight(Double.MAX_VALUE);
 		VBox logsBox = new VBox();
+		logsBox.setPadding(new Insets(10, 10, 10, 10));
 		logsBox.setSpacing(5);
 		logsBox.setMaxWidth(Double.MAX_VALUE);
 		Config config = TsClient.getConfig();
