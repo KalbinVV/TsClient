@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox maxHeight="1.7976931348623157E308" prefHeight="184.0" prefWidth="600.0" spacing="5.0" style="-fx-background-color: #e7e7e7;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -34,7 +33,7 @@
                   <Font size="14.0" />
                </font>
             </PasswordField>
-            <Button mnemonicParsing="false" onAction="#onLogin" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #3F2B63; -fx-background-radius: 0;" text="Авторизироваться" textFill="#e7e7e7">
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLogin" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #3F2B63; -fx-background-radius: 0;" text="Авторизироваться" textFill="#e7e7e7">
                <font>
                   <Font size="14.0" />
                </font>
