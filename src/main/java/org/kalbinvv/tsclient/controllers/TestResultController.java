@@ -49,6 +49,9 @@ public class TestResultController implements Initializable{
 					new Label(entry.getKey()), new Label(entry.getValue().toString()));
 			questionsResultsBox.getChildren().add(questionResultBox);
 		}
+		questionsResultsBox.getChildren().add(new Label("Результат: "
+				+ testResultObject.getAmountOfCorrectAnswers() + "/"
+				+ testResultObject.getAmountOfAnswers()));
 		resultPercent.setText(Math.floor(Double.valueOf(testResultObject.
 				getAmountOfCorrectAnswers()) 
 				/ testResultObject.getAmountOfAnswers() * 100) + "%");
