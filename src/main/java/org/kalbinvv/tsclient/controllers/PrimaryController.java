@@ -90,12 +90,6 @@ public class PrimaryController implements Initializable{
 		usersLayout.draw();
 	}
 	
-	public void onQuitButton(ActionEvent event) {
-		sendUserExitRequest();
-		TsClient.setRoot("auth.fxml", new AuthController());
-		TsClient.setResizable(false);
-	}
-	
 	public void onInfoButton(ActionEvent event) {
 		new AlertInformation("Информация о программе", "Программа разработана:\n"
 				+ "Владимир Кальбин - главный разработчик\nВерсия: 0.1");

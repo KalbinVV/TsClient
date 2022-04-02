@@ -29,7 +29,6 @@ public class TsClient extends Application {
 		}
 		TsClient.stage = stage;
 		TsClient.styleURL = loader.getFileURL("style.css");
-		setResizable(false);
 		setRoot("auth.fxml", new AuthController());
 	}
 

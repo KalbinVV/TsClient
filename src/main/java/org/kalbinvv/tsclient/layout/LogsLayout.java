@@ -1,6 +1,7 @@
 package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import org.kalbinvv.tsclient.Config;
@@ -11,9 +12,10 @@ import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class LogsLayout extends Layout{
 
@@ -24,6 +26,12 @@ public class LogsLayout extends Layout{
 	@Override
 	public void draw() {
 		clearNodes();
+		FontAwesomeIconView logsIcon = new FontAwesomeIconView();
+		logsIcon.setGlyphName("FILTER");
+		logsIcon.setGlyphSize(50);
+		Label headerLabel = new Label("Журнал действий");
+		addNode(logsIcon);
+		addNode(headerLabel);
 		ScrollPane logsPane = new ScrollPane();
 		logsPane.setMaxWidth(Double.MAX_VALUE);
 		logsPane.setMaxHeight(Double.MAX_VALUE);
@@ -39,16 +47,17 @@ public class LogsLayout extends Layout{
 				@SuppressWarnings("unchecked")
 				List<String> logs = (List<String>) response.getObject();
 				for(String log : logs) {
-					Text logNode = new Text(log);
+					Label logNode = new Label(log);
 					logsBox.getChildren().add(logNode);
 				}
 			}else {
-				Text errorText = new Text("Не удалость получить журнал действий!\n" 
+				Label errorText = new Label("Не удалость получить журнал действий!\n" 
 						+ (String) response.getObject());
 				logsBox.getChildren().add(errorText);
 			}
 		} catch (IOException e) {
-			Text errorText = new Text("Не удалость получить журнал действий!\n" + e.getMessage());
+			Label errorText = new Label("Не удалость получить журнал действий!\n" 
+					+ e.getMessage());
 			logsBox.getChildren().add(errorText);
 		}
 		logsPane.setContent(logsBox);

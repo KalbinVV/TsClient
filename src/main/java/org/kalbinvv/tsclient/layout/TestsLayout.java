@@ -22,11 +22,13 @@ import org.kalbinvv.tscore.test.TestData;
 import org.kalbinvv.tscore.user.User;
 import org.kalbinvv.tscore.user.UserType;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -40,8 +42,12 @@ public class TestsLayout extends Layout{
 	@Override
 	public void draw() {
 		clearNodes();
-		Text headerText = new Text("Тесты: ");
-		addNode(headerText);
+		FontAwesomeIconView testsIcon = new FontAwesomeIconView();
+		testsIcon.setGlyphName("LIST");
+		testsIcon.setGlyphSize(50);
+		Label headerLabel = new Label("Тестирование");
+		addNode(testsIcon);
+		addNode(headerLabel);
 		Config config = TsClient.getConfig();
 		User user = config.getUser();
 		try {
@@ -52,7 +58,6 @@ public class TestsLayout extends Layout{
 			for(Test test : tests) {
 				Text testNode = new Text("Название: " + test.getName() + "\n" 
 						+ "Описание: " + test.getDescription());
-				addNode(testNode);
 				Button startTestButton = new Button("Начать тест");
 				startTestButton.setOnAction((ActionEvent event) -> {
 					config.getUser().setTest(test);
@@ -64,7 +69,7 @@ public class TestsLayout extends Layout{
 					alert.setContentText(test.getDescription());
 					alert.showAndWait();
 				});
-				HBox hBox  = new HBox();
+				VBox vBox  = new VBox();
 				if(user.getType() == UserType.Admin) {
 					Button downloadTestButton = new Button("Скачать тест");
 					Button editTestButton = new Button("Редактировать тест");
@@ -79,13 +84,15 @@ public class TestsLayout extends Layout{
 						downloadTestButton.setVisible(false);
 						editTestButton.setVisible(false);
 					}
-					hBox.setSpacing(5);
-					hBox.getChildren().addAll(startTestButton, infoTestButton,
+					vBox.setSpacing(5);
+					vBox.getChildren().addAll(testNode, startTestButton, infoTestButton,
 							downloadTestButton, editTestButton, removeTestButton);
 				}else {
-					hBox.getChildren().addAll(startTestButton, infoTestButton);
+					vBox.getChildren().addAll(startTestButton, infoTestButton);
 				}
-				addNode(hBox);
+
+				TitledPane titledPane = new TitledPane(test.getName(), vBox);
+				addNode(titledPane);
 			}
 		} catch (IOException e) {
 			new AlertError("Не удалось получить список тестов", e.getMessage());

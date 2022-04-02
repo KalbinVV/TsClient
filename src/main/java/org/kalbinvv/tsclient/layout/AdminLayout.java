@@ -14,6 +14,7 @@ import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.security.Utils;
 import org.kalbinvv.tscore.user.UserEntry;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -40,6 +41,10 @@ public class AdminLayout extends Layout{
 
 	private void drawUserAddInterface() {
 		Config config = TsClient.getConfig();
+		FontAwesomeIconView usersIcon = new FontAwesomeIconView();
+		usersIcon.setGlyphName("USERS");
+		usersIcon.setGlyphSize(50);
+		addNode(usersIcon);
 		Text addText = new Text("Добавить нового пользователя: ");
 		TextField loginField = new TextField();
 		loginField.setPromptText("Логин");
@@ -47,7 +52,8 @@ public class AdminLayout extends Layout{
 		passField.setPromptText("Пароль");
 		Button addUserButton = new Button("Добавить пользователя!");
 		addUserButton.setMaxWidth(Double.MAX_VALUE);
-		Button addAdminUserButton = new Button("Добавить пользователя с административными правами!");
+		Button addAdminUserButton = new Button("Добавить пользователя "
+				+ "с административными правами!");
 		addAdminUserButton.setMaxWidth(Double.MAX_VALUE);
 		addUserButton.setOnAction((ActionEvent event) -> {
 			try {
@@ -114,7 +120,7 @@ public class AdminLayout extends Layout{
 		if(anymousUsersAllowedResponse.getType() == ResponseType.Successful) {
 			boolean isAnonymousUsersAllowed = (boolean) anymousUsersAllowedResponse.getObject();
 			button.setText( (isAnonymousUsersAllowed ? "Запретить" : "Разрешить") 
-					+ " подключение анонимным пользователям.");
+					+ " подключение анонимным пользователям!");
 		}else {
 			new AlertError("Не удалось получить настройки!", 
 					(String) anymousUsersAllowedResponse.getObject());

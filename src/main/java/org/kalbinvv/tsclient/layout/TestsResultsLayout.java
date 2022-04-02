@@ -13,6 +13,8 @@ import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.test.TestResult;
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -26,6 +28,12 @@ public class TestsResultsLayout extends Layout{
 	@Override
 	public void draw() {
 		clearNodes();
+		FontAwesomeIconView resultsIcon = new FontAwesomeIconView();
+		resultsIcon.setGlyphName("STAR");
+		resultsIcon.setGlyphSize(50);
+		Label headerLabel = new Label("Результаты");
+		addNode(resultsIcon);
+		addNode(headerLabel);
 		ScrollPane resultsPane = new ScrollPane();
 		resultsPane.setMaxWidth(Double.MAX_VALUE);
 		VBox resultsBox = new VBox();
