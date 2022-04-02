@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="210.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -16,7 +15,7 @@
             <FontAwesomeIconView fill="WHITE" glyphName="LIST" size="30" />
          </children>
       </VBox>
-      <Pagination fx:id="pagination" prefHeight="370.0" prefWidth="390.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+      <Pagination fx:id="pagination" prefHeight="370.0" prefWidth="390.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="215.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
       <ScrollPane prefHeight="94.0" prefWidth="390.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <content>
             <Text fx:id="testTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />

@@ -3,6 +3,7 @@ package org.kalbinvv.tsclient.layout;
 import java.io.File;
 
 
+
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +26,6 @@ import org.kalbinvv.tscore.user.UserType;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -74,10 +74,7 @@ public class TestsLayout extends Layout{
 					alert.setContentText(test.getDescription());
 					alert.showAndWait();
 				});
-				FontAwesomeIconView testIcon = new FontAwesomeIconView();
-				testIcon.setGlyphName("CHECK");		
-				VBox testBox = new VBox(testIcon);
-				testBox.setAlignment(Pos.CENTER);
+				VBox testBox = new VBox();
 				if(user.getType() == UserType.Admin) {
 					Button downloadTestButton = new Button("Скачать тест");
 					Button editTestButton = new Button("Редактировать тест");
