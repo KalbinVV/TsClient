@@ -2,6 +2,7 @@ package org.kalbinvv.tsclient.layout;
 
 import java.io.File;
 
+
 import java.io.IOException;
 import java.util.List;
 
@@ -24,11 +25,12 @@ import org.kalbinvv.tscore.user.UserType;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -50,12 +52,15 @@ public class TestsLayout extends Layout{
 		addNode(headerLabel);
 		Config config = TsClient.getConfig();
 		User user = config.getUser();
+		VBox vBox = new VBox();
+		vBox.setSpacing(10);
+		ScrollPane scrollPane = new ScrollPane();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
 			@SuppressWarnings("unchecked")
 			List<Test> tests = (List<Test>) connection.sendRequestAndGetResponse(
 					new Request(RequestType.GetTests, null, config.getUser())).getObject();
-			for(Test test : tests) {
+			for(Test test : tests) {		
 				Text testNode = new Text("Название: " + test.getName() + "\n" 
 						+ "Описание: " + test.getDescription());
 				Button startTestButton = new Button("Начать тест");
@@ -69,7 +74,10 @@ public class TestsLayout extends Layout{
 					alert.setContentText(test.getDescription());
 					alert.showAndWait();
 				});
-				VBox vBox  = new VBox();
+				FontAwesomeIconView testIcon = new FontAwesomeIconView();
+				testIcon.setGlyphName("CHECK");		
+				VBox testBox = new VBox(testIcon);
+				testBox.setAlignment(Pos.CENTER);
 				if(user.getType() == UserType.Admin) {
 					Button downloadTestButton = new Button("Скачать тест");
 					Button editTestButton = new Button("Редактировать тест");
@@ -84,16 +92,16 @@ public class TestsLayout extends Layout{
 						downloadTestButton.setVisible(false);
 						editTestButton.setVisible(false);
 					}
-					vBox.setSpacing(5);
-					vBox.getChildren().addAll(testNode, startTestButton, infoTestButton,
+					testBox.setSpacing(5);
+					testBox.getChildren().addAll(testNode, startTestButton, infoTestButton,
 							downloadTestButton, editTestButton, removeTestButton);
 				}else {
-					vBox.getChildren().addAll(startTestButton, infoTestButton);
+					testBox.getChildren().addAll(startTestButton, infoTestButton);
 				}
-
-				TitledPane titledPane = new TitledPane(test.getName(), vBox);
-				addNode(titledPane);
+				vBox.getChildren().add(testBox);
 			}
+			scrollPane.setContent(vBox);
+			addNode(scrollPane);
 		} catch (IOException e) {
 			new AlertError("Не удалось получить список тестов", e.getMessage());
 		}
