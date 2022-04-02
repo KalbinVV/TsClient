@@ -56,11 +56,11 @@ public class TestController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		test = new SimpleTest(TsClient.getConfig().getUser().getTest());
+		test.setCurrentQuestion(0);
 		if(test.isShuffled()) {
 			Collections.shuffle(test.getQuestions());
 		}
-		pagination.setPageCount(TsClient.getConfig().getUser().getTest()
-				.getQuestions().size());
+		pagination.setPageCount(test.getQuestions().size());
 		pagination.setPageFactory((pageIndex) -> {
 			saveUserSelect();
 			test.setCurrentQuestion(pageIndex);
@@ -124,7 +124,9 @@ public class TestController implements Initializable{
 				}
 			}else {
 				TextField textField = (TextField) node;
-				textField.setText(userSelect.get(0));
+				if(userSelect.size() > 0) {
+					textField.setText(userSelect.get(0));
+				}
 			}
 		}
 	}

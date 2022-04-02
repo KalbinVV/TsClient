@@ -37,7 +37,7 @@ public class TestsResultsLayout extends Layout{
 		ScrollPane resultsPane = new ScrollPane();
 		resultsPane.setMaxWidth(Double.MAX_VALUE);
 		VBox resultsBox = new VBox();
-		resultsBox.setSpacing(5);
+		resultsBox.setSpacing(20);
 		Config config = TsClient.getConfig();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
@@ -52,6 +52,7 @@ public class TestsResultsLayout extends Layout{
 				List<TestResult> testResults = (List<TestResult>) response.getObject();
 				for(TestResult testResult : testResults) {
 					VBox testResultBox = new VBox();
+					testResultBox.setSpacing(5);
 					Text authorText = new Text("Пользователь: " + testResult.getUser().getName());
 					Text resultText = new Text("Результат:\n" + testResult.getAmountOfCorrectAnswers() 
 					+ "/" + testResult.getAmountOfAnswers()

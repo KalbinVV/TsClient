@@ -5,8 +5,8 @@
 }
 
 Button{
-    -fx-background-color: #f3f3f3;
-    -fx-background-radius: 0;
+    -fx-background-color: #9381FF;
+    -fx-background-radius: 5;
 }
 
 TextField{
@@ -20,6 +20,14 @@ TextField{
 .leftSide Button{
     -fx-background-color: #f3f3f3;
     -fx-background-radius: 0;
+}
+
+.leftSide Button:hover{
+    -fx-background-color: #EA2B1F;
+}
+
+Button:hover{
+    -fx-background-color: #EA2B1F;
 }
 
 CheckBox{

@@ -26,6 +26,7 @@ import org.kalbinvv.tscore.user.UserType;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -53,7 +54,8 @@ public class TestsLayout extends Layout{
 		Config config = TsClient.getConfig();
 		User user = config.getUser();
 		VBox vBox = new VBox();
-		vBox.setSpacing(10);
+		vBox.setSpacing(20);
+		vBox.setPadding(new Insets(10, 10, 10, 10));
 		ScrollPane scrollPane = new ScrollPane();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
@@ -75,6 +77,7 @@ public class TestsLayout extends Layout{
 					alert.showAndWait();
 				});
 				VBox testBox = new VBox();
+				testBox.setSpacing(5);
 				if(user.getType() == UserType.Admin) {
 					Button downloadTestButton = new Button("Скачать тест");
 					Button editTestButton = new Button("Редактировать тест");
@@ -89,11 +92,10 @@ public class TestsLayout extends Layout{
 						downloadTestButton.setVisible(false);
 						editTestButton.setVisible(false);
 					}
-					testBox.setSpacing(5);
 					testBox.getChildren().addAll(testNode, startTestButton, infoTestButton,
 							downloadTestButton, editTestButton, removeTestButton);
 				}else {
-					testBox.getChildren().addAll(startTestButton, infoTestButton);
+					testBox.getChildren().addAll(testNode, startTestButton, infoTestButton);
 				}
 				vBox.getChildren().add(testBox);
 			}
