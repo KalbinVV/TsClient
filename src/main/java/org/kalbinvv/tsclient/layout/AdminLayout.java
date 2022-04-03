@@ -2,6 +2,7 @@ package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
 
+
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.alert.AlertError;
@@ -14,6 +15,7 @@ import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.security.Utils;
 import org.kalbinvv.tscore.user.UserEntry;
 
+import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -36,6 +38,7 @@ public class AdminLayout extends Layout{
 		} catch(IOException e) {
 			new AlertError("Ошибка отображения!", e.getMessage());
 		}
+		new FadeIn(getVBox()).play();
 	}
 
 

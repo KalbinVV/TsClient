@@ -1,6 +1,7 @@
 package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.user.User;
 
+import animatefx.animation.FadeIn;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -47,6 +49,7 @@ public class UsersLayout extends Layout{
 			Text errorText = new Text("Не удалось отобразить список участников по неизвестной ошибке!"); 
 			addNode(errorText);
 		}
+		new FadeIn(getVBox()).play();
 	}
 
 }

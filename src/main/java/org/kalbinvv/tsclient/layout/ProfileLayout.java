@@ -2,6 +2,7 @@ package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
 
+
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.controllers.AuthController;
@@ -11,6 +12,7 @@ import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.user.User;
 import org.kalbinvv.tscore.user.UserType;
 
+import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -52,6 +54,7 @@ public class ProfileLayout extends Layout{
 			TsClient.setResizable(false);
 		});
 		addNode(leaveButton);
+		new FadeIn(getVBox()).play();
 	}
 	
 	private void sendUserExitRequest() {

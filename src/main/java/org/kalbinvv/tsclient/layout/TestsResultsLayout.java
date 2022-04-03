@@ -2,6 +2,7 @@ package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
 
+
 import java.util.List;
 
 import org.kalbinvv.tsclient.Config;
@@ -14,6 +15,7 @@ import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.test.TestResult;
 
+import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -83,6 +85,7 @@ public class TestsResultsLayout extends Layout{
 		}
 		resultsPane.setContent(resultsBox);
 		addNode(resultsPane);
+		new FadeIn(getVBox()).play();
 	}
 
 }

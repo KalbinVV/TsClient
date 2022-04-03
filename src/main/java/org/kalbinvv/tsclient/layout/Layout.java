@@ -12,11 +12,15 @@ public abstract class Layout {
 	}
 	
 	void clearNodes() {
-		vBox.getChildren().clear();
+		getVBox().getChildren().clear();
 	}
 	
 	void addNode(Node node) {
-		vBox.getChildren().add(node);
+		getVBox().getChildren().add(node);
+	}
+	
+	public VBox getVBox() {
+		return vBox;
 	}
 	
 	public abstract void draw();
