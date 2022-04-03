@@ -35,7 +35,9 @@ public class TsClient extends Application {
 	
 	@Override
 	public void stop(){
+		updateThread.interrupt();
 		Platform.exit();
+		System.exit(0);
 	}
 	
 	public static void setUpdateable(Updateable updateable) {
