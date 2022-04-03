@@ -56,8 +56,9 @@ public class TestsResultsLayout extends Layout{
 				resultsBox.getChildren().add(errorText);
 			} else {
 				@SuppressWarnings("unchecked")
-				List<TestResult> testResults = (List<TestResult>) response.getObject();
-				for(TestResult testResult : testResults) {
+				List<TestResult> testsResults = (List<TestResult>) response.getObject();
+				for(int i = testsResults.size() - 1; i >= 0; i--) {
+					TestResult testResult = testsResults.get(i);
 					VBox testResultBox = new VBox();
 					Button viewTestResultButton = new Button("Посмотреть отчёт");
 					viewTestResultButton.setOnAction((ActionEvent event) -> {

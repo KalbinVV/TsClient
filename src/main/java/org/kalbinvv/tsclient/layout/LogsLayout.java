@@ -56,10 +56,11 @@ public class LogsLayout extends Layout{
 			if(response.getType() == ResponseType.Successful) {
 				@SuppressWarnings("unchecked")
 				List<String> logs = (List<String>) response.getObject();
-				for(String log : logs) {
-					Label logNode = new Label(log);
-					logsBox.getChildren().add(logNode);
+				StringBuilder stringBuilder = new StringBuilder();
+				for(int i = logs.size() - 1; i >= 0; i--) {
+					stringBuilder.append(logs.get(i)).append("\n");
 				}
+				logsBox.getChildren().add(new Label(stringBuilder.toString()));
 			}else {
 				Label errorText = new Label("Не удалость получить журнал действий!\n" 
 						+ (String) response.getObject());
