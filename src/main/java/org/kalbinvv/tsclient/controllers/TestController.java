@@ -45,7 +45,7 @@ public class TestController implements Initializable{
 	private Button finishButton;
 
 	private VBox questionsBox;
-	
+
 	private Test test;
 
 	public TestController(){
