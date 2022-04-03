@@ -2,25 +2,44 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" prefHeight="400.0" prefWidth="200.0" spacing="5.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <FontAwesomeIconView fill="WHITE" glyphName="STAR" size="50" />
-            <Text fx:id="resultPercent" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
+            <VBox alignment="CENTER" prefHeight="322.0" prefWidth="200.0">
+               <children>
+                  <Text fx:id="resultPercent" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <FontAwesomeIconView fill="WHITE" glyphName="STAR" size="50" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <FontAwesomeIconView fill="WHITE" glyphName="USER" />
+                  <Text fx:id="userName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
          </children>
       </VBox>
-      <VBox fx:id="resultBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="350.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <Text fx:id="testTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+         </content>
+      </ScrollPane>
+      <VBox fx:id="resultBox" alignment="CENTER" layoutY="48.0" prefHeight="322.0" prefWidth="400.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
       <Button mnemonicParsing="false" onAction="#onReturnToPrimaryButton" prefHeight="30.0" text="Вернуться в главное меню" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="0.0">
          <graphic>
             <FontAwesomeIconView glyphName="HOME" />

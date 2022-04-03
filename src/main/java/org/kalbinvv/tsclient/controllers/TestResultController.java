@@ -1,6 +1,7 @@
 package org.kalbinvv.tsclient.controllers;
 
 import java.net.URL;
+
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -19,13 +20,19 @@ import javafx.scene.text.Text;
 
 public class TestResultController implements Initializable{
 
-	private TestResult testResultObject;
-
 	@FXML
 	private Text resultPercent;
 
 	@FXML
 	private VBox resultBox;
+	
+	@FXML
+    private Text testTitle;
+
+    @FXML
+    private Text userName;
+    
+	private final TestResult testResultObject;
 
 	public TestResultController(TestResult testResultObject) {
 		this.testResultObject = testResultObject;
@@ -33,6 +40,8 @@ public class TestResultController implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		userName.setText(testResultObject.getUser().getName());
+		testTitle.setText(testResultObject.getTest().getName());
 		FontAwesomeIconView resultsIcon = new FontAwesomeIconView();
 		resultsIcon.setGlyphName("FILTER");
 		resultsIcon.setGlyphSize(50);
