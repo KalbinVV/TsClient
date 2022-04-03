@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.kalbinvv.tsclient.Config;
+import org.kalbinvv.tsclient.EmptyUpdateable;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.controllers.TestResultController;
 import org.kalbinvv.tscore.net.Connection;
@@ -30,9 +31,16 @@ public class TestsResultsLayout extends Layout{
 	public TestsResultsLayout(VBox vBox) {
 		super(vBox);
 	}
+	
+	@Override
+	public void view() {
+		draw();
+		new FadeIn(getVBox()).play();
+	}
 
 	@Override
 	public void draw() {
+		TsClient.setUpdateable(this);
 		clearNodes();
 		FontAwesomeIconView resultsIcon = new FontAwesomeIconView();
 		resultsIcon.setGlyphName("STAR");
@@ -62,6 +70,7 @@ public class TestsResultsLayout extends Layout{
 					VBox testResultBox = new VBox();
 					Button viewTestResultButton = new Button("Посмотреть отчёт");
 					viewTestResultButton.setOnAction((ActionEvent event) -> {
+						TsClient.setUpdateable(new EmptyUpdateable());
 						TsClient.setRoot("testResult.fxml", 
 								new TestResultController(testResult));
 					});
@@ -86,7 +95,11 @@ public class TestsResultsLayout extends Layout{
 		}
 		resultsPane.setContent(resultsBox);
 		addNode(resultsPane);
-		new FadeIn(getVBox()).play();
 	}
 
+	@Override
+	public void update() {
+		draw();
+	}
+	
 }

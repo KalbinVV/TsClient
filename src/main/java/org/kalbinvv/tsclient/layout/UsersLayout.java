@@ -25,7 +25,14 @@ public class UsersLayout extends Layout{
 	}
 
 	@Override
+	public void view() {
+		draw();
+		new FadeIn(getVBox()).play();
+	}
+	
+	@Override
 	public void draw() {
+		TsClient.setUpdateable(this);
 		clearNodes();
 		try {
 			Config config = TsClient.getConfig();
@@ -49,7 +56,11 @@ public class UsersLayout extends Layout{
 			Text errorText = new Text("Не удалось отобразить список участников по неизвестной ошибке!"); 
 			addNode(errorText);
 		}
-		new FadeIn(getVBox()).play();
 	}
 
+	@Override
+	public void update() {
+		draw();
+	}
+	
 }

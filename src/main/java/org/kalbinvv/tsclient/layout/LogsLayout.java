@@ -31,9 +31,16 @@ public class LogsLayout extends Layout{
 	public LogsLayout(VBox vBox) {
 		super(vBox);
 	}
+	
+	@Override
+	public void view() {
+		draw();
+		new FadeIn(getVBox()).play();
+	}
 
 	@Override
 	public void draw() {
+		TsClient.setUpdateable(this);
 		clearNodes();
 		FontAwesomeIconView logsIcon = new FontAwesomeIconView();
 		logsIcon.setGlyphName("FILTER");
@@ -78,9 +85,13 @@ public class LogsLayout extends Layout{
 				(ActionEvent event) -> onDownloadJournalButton(event));
 		addNode(logsPane);
 		addNode(downloadJournalButton);
-		new FadeIn(getVBox()).play();
 	}
 
+	@Override
+	public void update() {
+		draw();
+	}
+	
 	public void onDownloadJournalButton(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		File selectedFile = fileChooser.showSaveDialog(TsClient.getStage());

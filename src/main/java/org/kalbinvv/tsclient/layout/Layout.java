@@ -1,9 +1,11 @@
 package org.kalbinvv.tsclient.layout;
 
+import org.kalbinvv.tsclient.Updateable;
+
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
-public abstract class Layout {
+public abstract class Layout implements Updateable{
 
 	private final VBox vBox;
 	
@@ -24,5 +26,11 @@ public abstract class Layout {
 	}
 	
 	public abstract void draw();
+	
+	public void view() {
+		draw();
+	}
+	
+	public void update() {}
 	
 }

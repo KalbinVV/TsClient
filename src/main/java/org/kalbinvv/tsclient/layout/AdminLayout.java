@@ -4,6 +4,7 @@ import java.io.IOException;
 
 
 import org.kalbinvv.tsclient.Config;
+import org.kalbinvv.tsclient.EmptyUpdateable;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.alert.AlertError;
 import org.kalbinvv.tsclient.alert.AlertInformation;
@@ -30,7 +31,14 @@ public class AdminLayout extends Layout{
 	}
 
 	@Override
+	public void view() {
+		draw();
+		new FadeIn(getVBox()).play();
+	}
+	
+	@Override
 	public void draw() {
+		TsClient.setUpdateable(new EmptyUpdateable());
 		clearNodes();
 		drawUserAddInterface();
 		try {
@@ -38,7 +46,6 @@ public class AdminLayout extends Layout{
 		} catch(IOException e) {
 			new AlertError("Ошибка отображения!", e.getMessage());
 		}
-		new FadeIn(getVBox()).play();
 	}
 
 
