@@ -9,6 +9,7 @@ import javafx.application.Platform;
 public class UpdateThread extends Thread{
 	
 	private Updateable updateable;
+	private ScheduledExecutorService executor;
 	
 	public UpdateThread() {
 		setUpdateable(new EmptyUpdateable());
@@ -16,7 +17,7 @@ public class UpdateThread extends Thread{
 	
 	@Override
     public void run() {
-		ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		executor = Executors.newScheduledThreadPool(1);
 	    Runnable loop = new Runnable() {
 	        public void run() {
 	             Platform.runLater(new Runnable() {
