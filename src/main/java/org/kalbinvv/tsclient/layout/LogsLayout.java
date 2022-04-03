@@ -2,6 +2,7 @@ package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
 
+
 import java.util.List;
 
 import org.kalbinvv.tsclient.Config;
@@ -12,6 +13,7 @@ import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
 
+import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -64,6 +66,7 @@ public class LogsLayout extends Layout{
 		}
 		logsPane.setContent(logsBox);
 		addNode(logsPane);
+		new FadeIn(getVBox()).play();
 	}
 
 }

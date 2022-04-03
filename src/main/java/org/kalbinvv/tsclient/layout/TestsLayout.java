@@ -4,6 +4,7 @@ import java.io.File;
 
 
 
+
 import java.io.IOException;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import org.kalbinvv.tscore.test.TestData;
 import org.kalbinvv.tscore.user.User;
 import org.kalbinvv.tscore.user.UserType;
 
+import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -104,6 +106,7 @@ public class TestsLayout extends Layout{
 		} catch (IOException e) {
 			new AlertError("Не удалось получить список тестов", e.getMessage());
 		}
+		new FadeIn(getVBox()).play();
 	}
 
 	private void onDownloadTestButton(Test test) {
