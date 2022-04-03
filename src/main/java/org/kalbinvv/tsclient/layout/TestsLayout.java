@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.kalbinvv.tsclient.Config;
+import org.kalbinvv.tsclient.EmptyUpdateable;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.alert.AlertError;
 import org.kalbinvv.tsclient.alert.AlertInformation;
@@ -45,7 +46,14 @@ public class TestsLayout extends Layout{
 	}
 
 	@Override
+	public void view() {
+		draw();
+		new FadeIn(getVBox()).play();
+	}
+	
+	@Override
 	public void draw() {
+		TsClient.setUpdateable(this);
 		clearNodes();
 		FontAwesomeIconView testsIcon = new FontAwesomeIconView();
 		testsIcon.setGlyphName("LIST");
@@ -70,6 +78,7 @@ public class TestsLayout extends Layout{
 				Button startTestButton = new Button("Начать тест");
 				startTestButton.setOnAction((ActionEvent event) -> {
 					config.getUser().setTest(test);
+					TsClient.setUpdateable(new EmptyUpdateable());
 					TsClient.setRoot("test.fxml", new TestController());
 				});
 				Button infoTestButton = new Button("Информация о тесте");
@@ -106,9 +115,13 @@ public class TestsLayout extends Layout{
 		} catch (IOException e) {
 			new AlertError("Не удалось получить список тестов", e.getMessage());
 		}
-		new FadeIn(getVBox()).play();
 	}
 
+	@Override
+	public void update() {
+		draw();
+	}
+	
 	private void onDownloadTestButton(Test test) {
 		Config config = TsClient.getConfig();
 		try {
@@ -134,6 +147,7 @@ public class TestsLayout extends Layout{
 	}
 
 	private void onEditTestButton(Test test) {
+		TsClient.setUpdateable(new EmptyUpdateable());
 		Config config = TsClient.getConfig();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
@@ -153,6 +167,7 @@ public class TestsLayout extends Layout{
 	}
 
 	private void onRemoveTestButton(Test test) {
+		TsClient.setUpdateable(new EmptyUpdateable());
 		Config config = TsClient.getConfig();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());

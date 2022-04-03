@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.kalbinvv.tsclient.Config;
+import org.kalbinvv.tsclient.EmptyUpdateable;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.alert.AlertInformation;
 import org.kalbinvv.tsclient.layout.*;
@@ -67,27 +68,27 @@ public class PrimaryController implements Initializable{
 		logsLayout = new LogsLayout(mainBox);
 		settingsLayout = new SettingsLayout(mainBox);
 		testsResultsLayout = new TestsResultsLayout(mainBox);
-		profileLayout.draw();
+		profileLayout.view();
 	}
 
 	public void onProfileButton(ActionEvent event) {
-		profileLayout.draw();
+		profileLayout.view();
 	}
 
 	public void onTestsButton(ActionEvent event) {
-		testsLayout.draw();
+		testsLayout.view();
 	}
 
 	public void onSettingsButton(ActionEvent event) {
-		settingsLayout.draw();
+		settingsLayout.view();
 	}
 
 	public void onAdminButton(ActionEvent event) {
-		adminLayout.draw();
+		adminLayout.view();
 	}
 	
 	public void onUsersButton(ActionEvent event) {
-		usersLayout.draw();
+		usersLayout.view();
 	}
 	
 	public void onInfoButton(ActionEvent event) {
@@ -96,14 +97,15 @@ public class PrimaryController implements Initializable{
 	}
 	
 	public void onLogsButton(ActionEvent event) {
-		logsLayout.draw();
+		logsLayout.view();
 	}
 	
 	public void onTestsResultsButton(ActionEvent event) {
-		testsResultsLayout.draw();
+		testsResultsLayout.view();
 	}
 	
 	public void onTestsEditorButton(ActionEvent event) {
+		TsClient.setUpdateable(new EmptyUpdateable());
 		TsClient.setRoot("editor.fxml", new TestsEditorController());
 	}
 	

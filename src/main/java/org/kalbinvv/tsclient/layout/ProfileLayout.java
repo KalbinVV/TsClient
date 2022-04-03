@@ -4,6 +4,7 @@ import java.io.IOException;
 
 
 import org.kalbinvv.tsclient.Config;
+import org.kalbinvv.tsclient.EmptyUpdateable;
 import org.kalbinvv.tsclient.TsClient;
 import org.kalbinvv.tsclient.controllers.AuthController;
 import org.kalbinvv.tscore.net.Connection;
@@ -27,6 +28,7 @@ public class ProfileLayout extends Layout{
 
 	@Override
 	public void draw() {
+		TsClient.setUpdateable(new EmptyUpdateable());
 		clearNodes();
 		User user = TsClient.getConfig().getUser();
 		FontAwesomeIconView profileIcon = new FontAwesomeIconView();
