@@ -10,11 +10,7 @@ public class UpdateTask{
 	}
 	
 	public void run() {
-		getUpdateable().update();
-	}
-
-	public Updateable getUpdateable() {
-		return updateable;
+		updateable.update();
 	}
 
 	public void setUpdateable(Updateable updateable) {

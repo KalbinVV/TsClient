@@ -15,6 +15,7 @@ import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.user.User;
 
 import animatefx.animation.FadeIn;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -27,12 +28,12 @@ public class UsersLayout extends Layout{
 	@Override
 	public void view() {
 		draw();
+		TsClient.setUpdateable(this);
 		new FadeIn(getVBox()).play();
 	}
-	
+
 	@Override
 	public void draw() {
-		TsClient.setUpdateable(this);
 		clearNodes();
 		try {
 			Config config = TsClient.getConfig();
@@ -44,16 +45,15 @@ public class UsersLayout extends Layout{
 				@SuppressWarnings("unchecked")
 				Set<User> onlineUsers = (HashSet<User>) response.getObject();
 				for(User user : onlineUsers) {
-					Text userText = new Text(user.getName() + " " + user.getAddress().toString());
-					addNode(userText);
+					addNode(new Label(user.getName() + " " + user.getAddress().toString()));
 				}
 			}else {
-				Text errorText = new Text("Не удалось отобразить список участников: " 
-						+ (String) response.getObject()); 
-				addNode(errorText);
+				addNode(new Label("Не удалось отобразить список участников: " 
+						+ (String) response.getObject()));
 			}
 		} catch (IOException e) {
-			Text errorText = new Text("Не удалось отобразить список участников по неизвестной ошибке!"); 
+			Text errorText = new Text(
+					"Не удалось отобразить список участников по неизвестной ошибке!"); 
 			addNode(errorText);
 		}
 	}
@@ -62,5 +62,5 @@ public class UsersLayout extends Layout{
 	public void update() {
 		draw();
 	}
-	
+
 }

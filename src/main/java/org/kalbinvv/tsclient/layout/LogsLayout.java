@@ -31,16 +31,16 @@ public class LogsLayout extends Layout{
 	public LogsLayout(VBox vBox) {
 		super(vBox);
 	}
-	
+
 	@Override
 	public void view() {
 		draw();
+		TsClient.setUpdateable(this);
 		new FadeIn(getVBox()).play();
 	}
 
 	@Override
 	public void draw() {
-		TsClient.setUpdateable(this);
 		clearNodes();
 		FontAwesomeIconView logsIcon = new FontAwesomeIconView();
 		logsIcon.setGlyphName("FILTER");
@@ -69,14 +69,13 @@ public class LogsLayout extends Layout{
 				}
 				logsBox.getChildren().add(new Label(stringBuilder.toString()));
 			}else {
-				Label errorText = new Label("Не удалость получить журнал действий!\n" 
-						+ (String) response.getObject());
-				logsBox.getChildren().add(errorText);
+				logsBox.getChildren().add(new Label(
+						"Не удалость получить журнал действий!\n" 
+								+ (String) response.getObject()));
 			}
 		} catch (IOException e) {
-			Label errorText = new Label("Не удалость получить журнал действий!\n" 
-					+ e.getMessage());
-			logsBox.getChildren().add(errorText);
+			logsBox.getChildren().add(new Label("Не удалость получить журнал действий!\n" 
+					+ e.getMessage()));
 		}
 		logsPane.setContent(logsBox);
 		Button downloadJournalButton = new Button("Скачать журнал");
@@ -91,7 +90,7 @@ public class LogsLayout extends Layout{
 	public void update() {
 		draw();
 	}
-	
+
 	public void onDownloadJournalButton(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		File selectedFile = fileChooser.showSaveDialog(TsClient.getStage());

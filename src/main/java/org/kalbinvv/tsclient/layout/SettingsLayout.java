@@ -16,12 +16,12 @@ public class SettingsLayout extends Layout{
 	@Override
 	public void view() {
 		draw();
+		TsClient.setUpdateable(new EmptyUpdateable());
 		new FadeIn(getVBox()).play();
 	}
 	
 	@Override
 	public void draw() {
-		TsClient.setUpdateable(new EmptyUpdateable());
 		clearNodes();
 		Text text = new Text("Настройки не готовы");
 		addNode(text);

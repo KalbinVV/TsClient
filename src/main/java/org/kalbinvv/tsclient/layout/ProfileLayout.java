@@ -25,10 +25,16 @@ public class ProfileLayout extends Layout{
 	public ProfileLayout(VBox vBox) {
 		super(vBox);
 	}
+	
+	@Override
+	public void view() {
+		draw();
+		TsClient.setUpdateable(new EmptyUpdateable());
+		new FadeIn(getVBox()).play();
+	}
 
 	@Override
 	public void draw() {
-		TsClient.setUpdateable(new EmptyUpdateable());
 		clearNodes();
 		User user = TsClient.getConfig().getUser();
 		FontAwesomeIconView profileIcon = new FontAwesomeIconView();
@@ -56,7 +62,6 @@ public class ProfileLayout extends Layout{
 			TsClient.setResizable(false);
 		});
 		addNode(leaveButton);
-		new FadeIn(getVBox()).play();
 	}
 	
 	private void sendUserExitRequest() {

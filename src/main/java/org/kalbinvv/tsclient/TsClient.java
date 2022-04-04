@@ -67,7 +67,6 @@ public class TsClient extends Application {
 	public static void main(String[] args) {
 		config = new Config();
 		updateThread = new UpdateThread();
-		updateThread.setDaemon(true);
 		updateThread.run();
 		launch();
 	}

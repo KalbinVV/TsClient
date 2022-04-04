@@ -48,12 +48,12 @@ public class TestsLayout extends Layout{
 	@Override
 	public void view() {
 		draw();
+		TsClient.setUpdateable(this);
 		new FadeIn(getVBox()).play();
 	}
 	
 	@Override
 	public void draw() {
-		TsClient.setUpdateable(this);
 		clearNodes();
 		FontAwesomeIconView testsIcon = new FontAwesomeIconView();
 		testsIcon.setGlyphName("LIST");

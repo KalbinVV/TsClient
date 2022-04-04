@@ -6,30 +6,21 @@ import java.net.UnknownHostException;
 
 public class ServerAddress {
 
-	private String serverAddress;
-	private Integer serverPort;
+	private final String serverAddress;
+	private final Integer serverPort;
 	
 	public ServerAddress(String serverAddress, Integer serverPort){
-		this.setServerAddress(serverAddress);
-		this.setServerPort(serverPort);
+		this.serverAddress = serverAddress;;
+		this.serverPort = serverPort;
 	}
 
 	public String getServerAddress() {
 		return serverAddress;
 	}
 
-	public void setServerAddress(String serverAddress) {
-		this.serverAddress = serverAddress;
-	}
-
 	public Integer getServerPort() {
 		return serverPort;
 	}
-
-	public void setServerPort(Integer serverPort) {
-		this.serverPort = serverPort;
-	}
-	
 	public Socket toSocket() throws UnknownHostException, IOException {
 		return new Socket(serverAddress, serverPort);
 	}

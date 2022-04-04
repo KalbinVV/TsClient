@@ -3,6 +3,7 @@ package org.kalbinvv.tsclient.layout;
 import java.io.IOException;
 
 
+
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.EmptyUpdateable;
 import org.kalbinvv.tsclient.TsClient;
@@ -20,9 +21,9 @@ import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class AdminLayout extends Layout{
 
@@ -55,7 +56,7 @@ public class AdminLayout extends Layout{
 		usersIcon.setGlyphName("USERS");
 		usersIcon.setGlyphSize(50);
 		addNode(usersIcon);
-		Text addText = new Text("Добавить нового пользователя: ");
+		Label addText = new Label("Добавить нового пользователя: ");
 		TextField loginField = new TextField();
 		loginField.setPromptText("Логин");
 		TextField passField = new TextField();

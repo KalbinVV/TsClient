@@ -3,6 +3,7 @@ package org.kalbinvv.tsclient.layout;
 import java.io.IOException;
 
 
+
 import java.util.List;
 
 import org.kalbinvv.tsclient.Config;
@@ -24,23 +25,22 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class TestsResultsLayout extends Layout{
 
 	public TestsResultsLayout(VBox vBox) {
 		super(vBox);
 	}
-	
+
 	@Override
 	public void view() {
 		draw();
+		TsClient.setUpdateable(this);
 		new FadeIn(getVBox()).play();
 	}
 
 	@Override
 	public void draw() {
-		TsClient.setUpdateable(this);
 		clearNodes();
 		FontAwesomeIconView resultsIcon = new FontAwesomeIconView();
 		resultsIcon.setGlyphName("STAR");
@@ -59,9 +59,8 @@ public class TestsResultsLayout extends Layout{
 			Response response = connection.sendRequestAndGetResponse(
 					new Request(RequestType.GetTestsResults, null, config.getUser()));
 			if(response.getType() == ResponseType.Unsuccessful) {
-				Text errorText = new Text("Не удалось получить результаты: " 
-						+ (String) response.getObject());
-				resultsBox.getChildren().add(errorText);
+				resultsBox.getChildren().add(new Label("Не удалось получить результаты: " 
+						+ (String) response.getObject()));
 			} else {
 				@SuppressWarnings("unchecked")
 				List<TestResult> testsResults = (List<TestResult>) response.getObject();
@@ -75,14 +74,15 @@ public class TestsResultsLayout extends Layout{
 								new TestResultController(testResult));
 					});
 					testResultBox.setSpacing(5);
-					Text authorText = new Text("Пользователь: " + 
+					Label authorText = new Label("Пользователь: " + 
 							testResult.getUser().getName());
-					Text resultText = new Text("Результат:\n" + 
+					Label resultText = new Label("Результат:\n" + 
 							testResult.getAmountOfCorrectAnswers() 
 					+ "/" + testResult.getAmountOfAnswers()
 					+ "\n" + Math.floor(Double.valueOf(testResult.getAmountOfCorrectAnswers()) 
 							/ testResult.getAmountOfAnswers() * 100) + "%");
-					Text testDescription = new Text("Тест:\n" + testResult.getTest().getName()
+					Label testDescription = new Label(
+							"Тест:\n" + testResult.getTest().getName()
 							+ "\n" + testResult.getTest().getDescription());
 					testResultBox.getChildren().addAll(authorText, resultText, 
 							testDescription, viewTestResultButton);
@@ -90,8 +90,8 @@ public class TestsResultsLayout extends Layout{
 				}
 			}
 		} catch (IOException e) {
-			Text errorText = new Text("Не удалось получить результаты: " + e.getMessage());
-			resultsBox.getChildren().add(errorText);
+			resultsBox.getChildren().add(
+					new Label("Не удалось получить результаты: " + e.getMessage()));
 		}
 		resultsPane.setContent(resultsBox);
 		addNode(resultsPane);
@@ -101,5 +101,5 @@ public class TestsResultsLayout extends Layout{
 	public void update() {
 		draw();
 	}
-	
+
 }
