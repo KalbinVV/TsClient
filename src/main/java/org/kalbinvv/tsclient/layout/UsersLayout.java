@@ -16,6 +16,8 @@ import org.kalbinvv.tscore.user.User;
 
 import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -52,8 +54,14 @@ public class UsersLayout extends Layout{
 				@SuppressWarnings("unchecked")
 				Set<User> onlineUsers = (HashSet<User>) response.getObject();
 				for(User user : onlineUsers) {
+					Button userJournalButton = new Button(
+							"Посмотреть результаты пользователя");
+					userJournalButton.setOnAction((ActionEvent event) -> {
+						new UserTestsResultsLayout(getVBox(), user).view();
+					});
 					addNode(new Label(user.getName() 
 							+ " " + user.getAddress().toString() + " [Онлайн]"));
+					addNode(userJournalButton);
 				}
 			}else {
 				addNode(new Label("Не удалось отобразить список участников: " 
