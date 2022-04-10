@@ -1,9 +1,6 @@
 package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
-
-
-
 import java.util.List;
 
 import org.kalbinvv.tsclient.Config;
@@ -16,6 +13,7 @@ import org.kalbinvv.tscore.net.RequestType;
 import org.kalbinvv.tscore.net.Response;
 import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.test.TestResult;
+import org.kalbinvv.tscore.user.User;
 
 import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -26,10 +24,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
-public class TestsResultsLayout extends Layout{
+public class UserTestsResultsLayout extends Layout{
 
-	public TestsResultsLayout(VBox vBox) {
+	private final User user;
+	
+	public UserTestsResultsLayout(VBox vBox, User user) {
 		super(vBox);
+		this.user = user;
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class TestsResultsLayout extends Layout{
 		TsClient.setUpdateable(this);
 		new FadeIn(getVBox()).play();
 	}
-	
+
 	@Override
 	public void update() {
 		draw();
@@ -50,7 +51,7 @@ public class TestsResultsLayout extends Layout{
 		FontAwesomeIconView resultsIcon = new FontAwesomeIconView();
 		resultsIcon.setGlyphName("STAR");
 		resultsIcon.setGlyphSize(50);
-		Label headerLabel = new Label("Результаты");
+		Label headerLabel = new Label("Результаты пользователя " + user.getName());
 		addNode(resultsIcon);
 		addNode(headerLabel);
 		ScrollPane resultsPane = new ScrollPane();
@@ -71,6 +72,8 @@ public class TestsResultsLayout extends Layout{
 				List<TestResult> testsResults = (List<TestResult>) response.getObject();
 				for(int i = testsResults.size() - 1; i >= 0; i--) {
 					TestResult testResult = testsResults.get(i);
+					//Skip not user's results
+					if(!testResult.getUser().getName().equals(user.getName())) continue;
 					VBox testResultBox = new VBox();
 					Button viewTestResultButton = new Button("Посмотреть отчёт");
 					viewTestResultButton.setOnAction((ActionEvent event) -> {
