@@ -1,11 +1,15 @@
 package org.kalbinvv.tsclient.layout;
 
 import org.kalbinvv.tsclient.EmptyUpdateable;
+
 import org.kalbinvv.tsclient.TsClient;
 
 import animatefx.animation.FadeIn;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.event.ActionEvent;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class SettingsLayout extends Layout{
 
@@ -23,8 +27,18 @@ public class SettingsLayout extends Layout{
 	@Override
 	public void draw() {
 		clearNodes();
-		Text text = new Text("Настройки не готовы");
-		addNode(text);
+		FontAwesomeIconView settingsIcon = new FontAwesomeIconView();
+		settingsIcon.setGlyphName("WRENCH");
+		settingsIcon.setGlyphSize(50);
+		Label settingsLabel = new Label("Настройки");
+		CheckBox autoUpdateCheckBox = new CheckBox("Автообновление контента");
+		autoUpdateCheckBox.setSelected(TsClient.isAutoUpdateEnabled());
+		autoUpdateCheckBox.setOnAction((ActionEvent event) -> {
+			TsClient.setAutoUpdateEnabled(autoUpdateCheckBox.isSelected());
+		});
+		addNode(settingsIcon);
+		addNode(settingsLabel);
+		addNode(autoUpdateCheckBox);
 	}
 
 }

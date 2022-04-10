@@ -15,6 +15,7 @@ import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.user.User;
 
 import animatefx.animation.FadeIn;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -35,6 +36,12 @@ public class UsersLayout extends Layout{
 	@Override
 	public void draw() {
 		clearNodes();
+		FontAwesomeIconView usersIcon = new FontAwesomeIconView();
+		usersIcon.setGlyphName("USERS");
+		usersIcon.setGlyphSize(50);
+		Label usersHeader = new Label("Пользователи");
+		addNode(usersIcon);
+		addNode(usersHeader);
 		try {
 			Config config = TsClient.getConfig();
 			Connection connection = new Connection(config.getServerAddress().toSocket());
@@ -45,7 +52,8 @@ public class UsersLayout extends Layout{
 				@SuppressWarnings("unchecked")
 				Set<User> onlineUsers = (HashSet<User>) response.getObject();
 				for(User user : onlineUsers) {
-					addNode(new Label(user.getName() + " " + user.getAddress().toString()));
+					addNode(new Label(user.getName() 
+							+ " " + user.getAddress().toString() + " [Онлайн]"));
 				}
 			}else {
 				addNode(new Label("Не удалось отобразить список участников: " 

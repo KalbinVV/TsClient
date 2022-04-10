@@ -23,7 +23,9 @@ public class UpdateThread extends Thread{
 				Platform.runLater(new Runnable() {
 					@Override 
 					public void run() {
-						updateable.update();
+						if(TsClient.isAutoUpdateEnabled()) {
+							updateable.update();
+						}
 					}
 				});
 			}

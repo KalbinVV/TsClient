@@ -21,6 +21,7 @@ public class TsClient extends Application {
 	private static URL styleURL;
 	private static Loader loader;
 	private static UpdateThread updateThread;
+	private static boolean autoUpdateEnabled;
 
 	@Override
 	public void start(Stage stage) throws IOException {
@@ -68,6 +69,7 @@ public class TsClient extends Application {
 		config = new Config();
 		updateThread = new UpdateThread();
 		updateThread.run();
+		setAutoUpdateEnabled(true);
 		launch();
 	}
 
@@ -81,6 +83,14 @@ public class TsClient extends Application {
 
 	public static URL getStyleURL() {
 		return styleURL;
+	}
+
+	public static boolean isAutoUpdateEnabled() {
+		return autoUpdateEnabled;
+	}
+
+	public static void setAutoUpdateEnabled(boolean autoUpdateEnabled) {
+		TsClient.autoUpdateEnabled = autoUpdateEnabled;
 	}
 
 }
