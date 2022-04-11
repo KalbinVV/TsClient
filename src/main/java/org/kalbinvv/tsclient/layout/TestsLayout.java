@@ -51,7 +51,7 @@ public class TestsLayout extends Layout{
 		TsClient.setUpdateable(this);
 		new FadeIn(getVBox()).play();
 	}
-	
+
 	@Override
 	public void draw() {
 		clearNodes();
@@ -93,18 +93,23 @@ public class TestsLayout extends Layout{
 					Button downloadTestButton = new Button("Скачать тест");
 					Button editTestButton = new Button("Редактировать тест");
 					Button removeTestButton = new Button("Удалить тест");
+					Button showTestResultsButton = new Button("Посмотреть результаты теста");
 					downloadTestButton.setOnAction((ActionEvent event) -> 
 					onDownloadTestButton(test));
 					editTestButton.setOnAction((ActionEvent event) -> 
 					onEditTestButton(test));
 					removeTestButton.setOnAction((ActionEvent event) ->
 					onRemoveTestButton(test));
+					showTestResultsButton.setOnAction((ActionEvent event) -> {
+						new certainTestResultsLayout(getVBox(), test).view();
+					});
 					if(TsClient.getConfig().getUser().getType() != UserType.Admin) {
 						downloadTestButton.setVisible(false);
 						editTestButton.setVisible(false);
 					}
 					testBox.getChildren().addAll(testNode, startTestButton, infoTestButton,
-							downloadTestButton, editTestButton, removeTestButton);
+							downloadTestButton, editTestButton, removeTestButton,
+							showTestResultsButton);
 				}else {
 					testBox.getChildren().addAll(testNode, startTestButton, infoTestButton);
 				}
@@ -121,7 +126,7 @@ public class TestsLayout extends Layout{
 	public void update() {
 		draw();
 	}
-	
+
 	private void onDownloadTestButton(Test test) {
 		Config config = TsClient.getConfig();
 		try {
