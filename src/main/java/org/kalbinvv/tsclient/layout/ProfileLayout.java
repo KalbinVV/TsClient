@@ -59,7 +59,6 @@ public class ProfileLayout extends Layout{
 		leaveButton.setOnAction((ActionEvent event) -> {
 			sendUserExitRequest();
 			TsClient.setRoot("auth.fxml", new AuthController());
-			TsClient.setResizable(false);
 		});
 		addNode(leaveButton);
 	}

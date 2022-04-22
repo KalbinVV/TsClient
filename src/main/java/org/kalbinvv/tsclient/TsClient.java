@@ -45,10 +45,6 @@ public class TsClient extends Application {
 		updateThread.setUpdateable(updateable);
 	}
 
-	public static void setResizable(boolean resizeable) {
-		stage.setResizable(resizeable);
-	}
-
 	public static void setRoot(String path, Initializable controller) {
 		FXMLLoader fxmlLoader = new FXMLLoader();
 		fxmlLoader.setLocation(loader.getFileURL(path));

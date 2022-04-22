@@ -2,9 +2,6 @@ package org.kalbinvv.tsclient.layout;
 
 import java.io.File;
 
-
-
-
 import java.io.IOException;
 import java.util.List;
 
@@ -30,8 +27,6 @@ import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -81,12 +76,6 @@ public class TestsLayout extends Layout{
 					TsClient.setUpdateable(new EmptyUpdateable());
 					TsClient.setRoot("test.fxml", new TestController());
 				});
-				Button infoTestButton = new Button("Информация о тесте");
-				infoTestButton.setOnAction((ActionEvent event) -> {
-					Alert alert = new Alert(AlertType.INFORMATION);
-					alert.setContentText(test.getDescription());
-					alert.showAndWait();
-				});
 				VBox testBox = new VBox();
 				testBox.setSpacing(5);
 				if(user.getType() == UserType.Admin) {
@@ -107,11 +96,11 @@ public class TestsLayout extends Layout{
 						downloadTestButton.setVisible(false);
 						editTestButton.setVisible(false);
 					}
-					testBox.getChildren().addAll(testNode, startTestButton, infoTestButton,
+					testBox.getChildren().addAll(testNode, startTestButton,
 							downloadTestButton, editTestButton, removeTestButton,
 							showTestResultsButton);
 				}else {
-					testBox.getChildren().addAll(testNode, startTestButton, infoTestButton);
+					testBox.getChildren().addAll(testNode, startTestButton);
 				}
 				vBox.getChildren().add(testBox);
 			}

@@ -51,7 +51,7 @@ public class UserTestsResultsLayout extends Layout{
 		FontAwesomeIconView resultsIcon = new FontAwesomeIconView();
 		resultsIcon.setGlyphName("STAR");
 		resultsIcon.setGlyphSize(50);
-		Label headerLabel = new Label("Результаты пользователя " + user.getName());
+		Label headerLabel = new Label("Результаты пользователя '" + user.getName() + "'");
 		addNode(resultsIcon);
 		addNode(headerLabel);
 		ScrollPane resultsPane = new ScrollPane();

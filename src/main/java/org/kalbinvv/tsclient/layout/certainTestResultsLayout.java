@@ -51,7 +51,7 @@ public class certainTestResultsLayout extends Layout{
 		FontAwesomeIconView resultsIcon = new FontAwesomeIconView();
 		resultsIcon.setGlyphName("STAR");
 		resultsIcon.setGlyphSize(50);
-		Label headerLabel = new Label("Результаты теста " + test.getName());
+		Label headerLabel = new Label("Результаты теста '" + test.getName() + "'");
 		addNode(resultsIcon);
 		addNode(headerLabel);
 		ScrollPane resultsPane = new ScrollPane();
