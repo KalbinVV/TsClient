@@ -53,14 +53,27 @@ public class UsersLayout extends Layout{
 			if(response.getType() == ResponseType.Successful) {
 				@SuppressWarnings("unchecked")
 				Set<User> onlineUsers = (HashSet<User>) response.getObject();
-				for(User user : onlineUsers) {
+				connection.reconnect();
+				response = connection.sendRequestAndGetResponse(
+						new Request(RequestType.GetUsers, null, config.getUser()));
+				@SuppressWarnings("unchecked")
+				Set<User> users = (HashSet<User>) response.getObject();
+				Set<String> alreadyViewed = new HashSet<String>();
+				for(User user : users) {
+					if(alreadyViewed.contains(user.getName())) continue;
+					alreadyViewed.add(user.getName());
 					Button userJournalButton = new Button(
 							"Посмотреть результаты пользователя");
 					userJournalButton.setOnAction((ActionEvent event) -> {
 						new UserTestsResultsLayout(getVBox(), user).view();
 					});
-					addNode(new Label(user.getName() 
-							+ " " + user.getAddress().toString() + " [Онлайн]"));
+					if(onlineUsers.stream().anyMatch((User u) -> {
+						return u.getName().equals(user.getName());
+					})){
+						addNode(new Label(user.getName() + " [Онлайн]"));
+					}else {
+						addNode(new Label(user.getName()));
+					}
 					addNode(userJournalButton);
 				}
 			}else {

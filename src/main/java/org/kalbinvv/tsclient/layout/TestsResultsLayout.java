@@ -1,21 +1,20 @@
 package org.kalbinvv.tsclient.layout;
 
 import java.io.IOException;
-
-
-
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.kalbinvv.tsclient.Config;
 import org.kalbinvv.tsclient.EmptyUpdateable;
 import org.kalbinvv.tsclient.TsClient;
+import org.kalbinvv.tsclient.Utils;
 import org.kalbinvv.tsclient.controllers.TestResultController;
 import org.kalbinvv.tscore.net.Connection;
 import org.kalbinvv.tscore.net.Request;
 import org.kalbinvv.tscore.net.RequestType;
-import org.kalbinvv.tscore.net.Response;
-import org.kalbinvv.tscore.net.ResponseType;
 import org.kalbinvv.tscore.test.TestResult;
+import org.kalbinvv.tscore.user.User;
 
 import animatefx.animation.FadeIn;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -61,14 +60,23 @@ public class TestsResultsLayout extends Layout{
 		Config config = TsClient.getConfig();
 		try {
 			Connection connection = new Connection(config.getServerAddress().toSocket());
-			Response response = connection.sendRequestAndGetResponse(
-					new Request(RequestType.GetTestsResults, null, config.getUser()));
-			if(response.getType() == ResponseType.Unsuccessful) {
-				resultsBox.getChildren().add(new Label("Не удалось получить результаты: " 
-						+ (String) response.getObject()));
-			} else {
-				@SuppressWarnings("unchecked")
-				List<TestResult> testsResults = (List<TestResult>) response.getObject();
+			@SuppressWarnings("unchecked")
+			Set<User> users = (Set<User>) connection.sendRequestAndGetResponse(
+					new Request(RequestType.GetUsers, null, config.getUser())).getObject();
+			Set<String> alreadyViewed = new HashSet<String>();
+			for(User user : users) {
+				if(alreadyViewed.contains(user.getName())) continue;
+				alreadyViewed.add(user.getName());
+				List<TestResult> testsResults = Utils.getUsersTestsResult(user);
+				if(testsResults.isEmpty()) continue;
+				resultsBox.getChildren()
+					.add(new Label("Средний балл пользователя '" 
+						+ user.getName() + "': "
+						+ testsResults.stream().mapToDouble((TestResult result) -> {
+							return Math.floor(Double.valueOf(
+									result.getAmountOfCorrectAnswers()) 
+									/ result.getAmountOfAnswers() * 100);
+						}).average().getAsDouble() + "%"));
 				for(int i = testsResults.size() - 1; i >= 0; i--) {
 					TestResult testResult = testsResults.get(i);
 					VBox testResultBox = new VBox();
